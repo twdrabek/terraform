@@ -13,7 +13,7 @@ echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://
 # Dependencies #
 ################
 
-
+apt install libguestfs-tools
 
 ##################################
 # Install Terraform on ProxmoxVE #
