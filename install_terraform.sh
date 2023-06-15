@@ -1,5 +1,11 @@
 #!/bin/bash
 
+###############################################
+#                                             #
+# Scripted install of Terraform on ProxmoxVE. #
+#                                             #
+###############################################
+
 ###############
 # Preperation #
 ###############
@@ -13,6 +19,7 @@ echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://
 # Dependencies #
 ################
 
+# Needed to install qemu-guest-agent
 apt install libguestfs-tools
 
 ##################################
