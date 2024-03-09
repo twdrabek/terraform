@@ -1,0 +1,3 @@
+ISO_STORAGE_POOL = "Mass"
+SSH_USERNAME = "root"
+PACKER_LOG=1

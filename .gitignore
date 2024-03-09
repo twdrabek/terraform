@@ -1,0 +1,4 @@
+.terraform/
+packer.auto.pkvars.hcl
+settings.auto.tfvars.hcl
+.terraform.lock.hcl

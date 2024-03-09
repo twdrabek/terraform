@@ -1,0 +1,4 @@
+PM_API_URL = "https://<IP>:8006/api2/json"
+PM_USER = "<>"
+PM_PASSWORD = "<>"
+INSECURE_SKIP_TLS_VERIFY = true
