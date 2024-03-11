@@ -7,17 +7,6 @@ packer {
   }
 }
 
-// variable "PM_USER" {
-//   description = "(Optional) The user, remember to include the authentication realm such as myuser@pam or myuser@pve."
-//   type = string
-// }
-
-// variable "PM_PASSWORD" {
-//   description = "(Optional) The password."
-//   type = string
-//   sensitive = true
-// }
-
 source "proxmox-iso" "kali-rolling-lab" {
   /*
     # Web Application Hacking Lab
@@ -31,9 +20,9 @@ source "proxmox-iso" "kali-rolling-lab" {
     ### Connection Settings
   */
   proxmox_url = var.PM_API_URL
-  insecure_skip_tls_verify = var.INSECURE_SKIP_TLS_VERIFY
-  username = "terraform-prov@pve" #var.PM_USER
-  token = "PassForDev!1" #var.PM_PASSWORD
+  insecure_skip_tls_verify = var.PM_TLS_INSECURE
+  username = var.PM_USER
+  password = var.PM_PASSWORD
 
 
   /*
@@ -44,7 +33,7 @@ source "proxmox-iso" "kali-rolling-lab" {
   vm_name = "kali"
   vm_id = 200
   tags = "student;lab;kali;attack;disposable"
-  onboot = true
+  onboot = false
 
   /*
     ### OS Settings
@@ -123,6 +112,42 @@ source "proxmox-iso" "kali-rolling-lab" {
 
 }
 
+/*
+20 <enter> # Language
+16 <enter> # Location
+1 <enter> # Keyboard
+kali <enter> # Hostname
+drasec.com <enter> # Domain
+<enter> # Fullname
+h4ndl3 <enter> # Username
+toor <enter> # Password
+toor <enter> # Confirm Password
+2 <enter> # Timezone
+1 <enter> # Partitioning
+1 <enter> # Disc
+1 <enter> # Scheme
+12 <enter> # Write changes
+1 <enter> # Confirm
+1 2 5 6 7 <enter> # Packages
+1 <enter> # Install GRUB
+2 <enter> # Select HDD
+<enter> # Reboot
+*/
+
 build {
-  sources = ["source.proxmox-iso.kali-rolling-lab"]
+  sources = [
+    "source.proxmox-iso.kali-rolling-lab"
+    ]
+
+  provisioner "shell" {
+    only = [
+    "source.proxmox-iso.kali-rolling-lab"
+    ]
+
+    inline = [
+      "echo",
+      "echo '${var.foo}'",
+    ]
+  }
+    
 }
