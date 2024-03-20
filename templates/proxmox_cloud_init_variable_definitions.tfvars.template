@@ -1,0 +1,10 @@
+{% comment %}
+Proxmox Cloud Init Disk Variable Definitions
+{% endcomment %}
+NAME = 
+PVE_NODE = 
+STORAGE = 
+META_DATA = 
+USER_DATA = 
+VENDOR_DATA = 
+NETWORK_CONFIG = 

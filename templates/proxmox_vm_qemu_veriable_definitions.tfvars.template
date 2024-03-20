@@ -1,0 +1,72 @@
+NAME = 
+TARGET_NODE = 
+VMID = 
+DESC = 
+DEFINE_CONNECTION_INFO = 
+BIOS = 
+ONBOOT = 
+STARTUP = 
+VM_STATE = 
+ONCREATE = 
+TABLET = 
+BOOT = 
+BOOTDISK = 
+AGENT = 
+ISO = 
+PXE = 
+CLONE = 
+FULL_CLONE = 
+HASTATE = 
+HAGROUP = 
+QEMU_OS = 
+MEMORY = 
+BALLOON = 
+SOCKETS = 
+CORES = 
+VCPUS = 
+CPU = 
+NUMA = 
+HOTPLUG = 
+SCSIHW = 
+POOL = 
+TAGS = 
+FORCE_CREATE = 
+OS_TYPE = 
+FORCE_RECREATE_ON_CHANGE_OF = 
+OS_NETWORK_CONFIG = 
+SSH_FORWARD_IP = 
+SSH_USER = 
+SSH_PRIVATE_KEY = 
+CI_WAIT = 
+CIUSER = 
+CIPASSWORD = 
+CICUSTOM = 
+CLOUDINIT_CDROM_STORAGE = 
+SEARCHDOMAIN = 
+NAMESERVER = 
+SSHKEYS = 
+IPCONFIG0 = 
+IPCONFIG1 = 
+AUTOMATIC_REBOOT = 
+{% comment %} 
+VGA Block
+The vga block is used to configure the display device. It may be specified multiple times,
+however only the first instance of the block will be used.
+{% endcomment %}
+VGA_TYPE = 
+VGA_MEMORY = 
+{% comment %}
+Network Block
+The network block is used to configure the network devices. It may be specified multiple times.
+The order in which the blocks are specified determines the ID for each net device. i.e. The
+first network block will become net0, the second will be net1 etc…
+See the docs about network devices for more details.
+{% endcomment %}
+NETWORK_MODEL = 
+NETWORK_MACADDR = 
+NETWORK_BRIDGE = 
+NETWORK_TAG = 
+NETWORK_FIREWALL = 
+NETWORK_RATE = 
+NETWORK_QUEUES = 
+NETWORK_LINK_DOWN = 

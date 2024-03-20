@@ -1,0 +1,32 @@
+---
+- name: Install Loki
+  hosts: "${ var.HOSTNAME }"
+  remote_user: root
+
+  tasks:
+    - name: Install apt-transport-https, software-properties-common, and wget.
+      ansible.builtin.apt:
+        update_cache: true
+        pkg:
+          - apt-transport-https
+          - software-properties-common
+          - wget
+    - name: Make keyring directory
+      ansible.builtin.file:
+        path: /etc/apt/keyrings
+        state: directory
+        mode: '0755'
+    - name: Download GPG keys
+      ansible.builtin.apt_key:
+        url: https://apt.grafana.com/gpg.key
+        state: present
+    - name: Add Grafana repositories
+      ansible.builtin.apt_repository:
+        repo: https://apt.grafana.com stable main
+        state: present
+    - name: Update packages and install Loki and Promtail
+      ansible.builtin.apt:
+        update-cache: true
+        pkg:
+          - loki
+          - promtail

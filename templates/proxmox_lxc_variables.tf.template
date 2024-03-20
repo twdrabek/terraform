@@ -1,0 +1,301 @@
+{% comment %} 
+Proxmox LXC Variable Declarations
+{% endcomment %}
+variable "TARGET_NODE" {
+  type = string
+  description = "A string containing the cluster node name."
+}
+variable "OSTEMPLATE" {
+  type = string
+  description = "The volume identifier that points to the OS template or backup file."
+}
+variable "ARCH" {
+  type = string
+  description = "Sets the container OS architecture type. Default is "amd64"."
+  default = "amd64"
+}
+variable "BWLIMIT" {
+  type =
+  description = "A number for setting the override I/O bandwidth limit (in KiB/s)."
+}
+variable "CLONE" {
+  type = string
+  description = "The lxc vmid to clone"
+}
+variable "CLONE_STORAGE" {
+  type = string
+  description = "Target storage for full clone."
+}
+variable "CMODE" {
+  type = string
+  default = "tty"
+  description = "Configures console mode. "tty" tries to open a connection to one of the available tty devices. "console" tries to attach to /dev/console instead. "shell" simply invokes a shell inside the container (no login). Default is "tty"."
+}
+variable "CONSOLE" {
+  type = bool
+  default = true
+  description = "A boolean to attach a console device to the container. Default is true."
+}
+variable "CORES" {
+  type = number
+  description = "The number of cores assigned to the container. A container can use all available cores by default."
+}
+variable "CPULIMIT" {
+  type = number
+  default = 0
+  description = "A number to limit CPU usage by. Default is 0."
+}
+variable "CPUUNITS" {
+  type = number
+  default = 1024
+  description = "A number of the CPU weight that the container possesses. Default is 1024."
+}
+variable "DESCRIPTION" {
+  type = string
+  description = "Sets the container description seen in the web interface."
+}
+variable "FEATURES" {
+  type = string
+  description = "An object for allowing the container to access advanced features."
+}
+variable "FEATURE_FUSE" {
+  type = 
+  description = "A boolean for enabling FUSE mounts."
+}
+variable "FEATURE_KEYCTL" {
+  type = 
+  description = "A boolean for enabling the keyctl() system call."
+}
+variable "FEATURE_MOUNT" {
+  type = 
+  description = "Defines the filesystem types (separated by semicolons) that are allowed to be mounted."
+}
+variable "FEATURE_NESTING" {
+  type = 
+  description = "A boolean to allow nested virtualization."
+}
+variable "FORCE" {
+  type = bool
+  description = "A boolean that allows the overwriting of pre-existing containers."
+}
+variable "FULL" {
+  type = bool
+  description = "When cloning, create a full copy of all disks. This is always done when you clone a normal CT. For CT template it creates a linked clone by default."
+}
+variable "HASTATE" {
+  type = string
+  description = "Requested HA state for the resource. One of "started", "stopped", "enabled", "disabled", or "ignored". See the docs about HA for more info."
+}
+variable "HAGROUP" {
+  type = string
+  description = "The HA group identifier the resource belongs to (requires hastate to be set!). See the docs about HA for more info."
+}
+variable "HOOKSCRIPT" {
+  type = string
+  description = "A string containing a volume identifier to a script that will be executed during various steps throughout the container's lifetime. The script must be an executable file."
+}
+variable "HOSTNAME" {
+  type = string
+  description = "Specifies the host name of the container."
+}
+variable "IGNORE_UNPACK_ERRORS" {
+  type = bool
+  description = "A boolean that determines if template extraction errors are ignored during container creation."
+}
+variable "LOCK" {
+  type = string
+  description = "A string for locking or unlocking the VM."
+}
+variable "MEMORY" {
+  type = number
+  description = "A number containing the amount of RAM to assign to the container (in MB)."
+}
+variable "MOUNTPOINT" {
+  type = string
+  description = "An object for defining a volume to use as a container mount point. Can be specified multiple times."
+}
+variable "MOUNTPOINT_MP" {
+  type = string
+  description = "(Required) - The path to the mount point as seen from inside the container. The path must not contain symlinks for security reasons."
+}
+variable "MOUNTPOINT_SIZE" {
+  type = string
+  description = "(Required) - Size of the underlying volume. Must end in T, G, M, or K (e.g. "1T", "1G", "1024M" , "1048576K"). Note that this is a read only value."
+}
+variable "MOUNTPOINT_SLOT" {
+  type = string
+  description = "(Required) - A string containing the number that identifies the mount point (i.e. the n in mp[n])."
+}
+variable "MOUNTPOINT_KEY" {
+  type = number
+  description = "(Required) - The number that identifies the mount point (i.e. the n in mp[n])."
+}
+variable "MOUNTPOINT_STORAGE" {
+  type = string
+  description = "(Required) - A string containing the volume , directory, or device to be mounted into the container (at the path specified by mp). E.g. local-lvm, local-zfs, local etc."
+}
+variable "MOUNTPOINT_ACL" {
+  type = bool
+  default = false
+  description = "A boolean for enabling ACL support. Default is false."
+}
+variable "MOUNTPOINT_BACKUP" {
+  type = bool
+  default = false
+  description = "A boolean for including the mount point in backups. Default is false."
+}
+variable "MOUNTPOINT_QUOTA" {
+  type = bool
+  default = false
+  description = "A boolean for enabling user quotas inside the container for this mount point. Default is false."
+}
+variable "MOUNTPOINT_REPLICATE" {
+  type = bool
+  default = false
+  description = "A boolean for including this volume in a storage replica job. Default is false."
+}
+variable "MOUNTPOINT_SHARED" {
+  type = bool
+  default = false
+  description = "A boolean for marking the volume as available on all nodes. Default is false."
+}
+variable "NAMESERVER" {
+  type = string
+  description = "The DNS server IP address used by the container. If neither nameserver nor searchdomain are specified, the values of the Proxmox host will be used by default."
+}
+variable "NETWORK" {
+  type = object
+  description = "An object defining a network interface for the container. Can be specified multiple times."
+}
+variable "NETWORK_NAME" {
+  type = string
+  description = "(Required) - The name of the network interface as seen from inside the container (e.g. "eth0")."
+}
+variable "NETWORK_BRIDGE" {
+  type = string
+  description = "The bridge to attach the network interface to (e.g. "vmbr0")."
+}
+variable "NETWORK_FIREWALL" {
+  type = bool
+  description = "A boolean to enable the firewall on the network interface."
+}
+variable "NETWORK_GW" {
+  type = string
+  description = "The IPv4 address belonging to the network interface's default gateway."
+}
+variable "NETWORK_GW6" {
+  type = string
+  description = "The IPv6 address of the network interface's default gateway."
+}
+variable "NETWORK_HWADDR" {
+  type = string
+  description = "A string to set a common MAC address with the I/G (Individual/Group) bit not set. Automatically determined if not set."
+}
+variable "NETWORK_IP" {
+  type = string
+  description = "The IPv4 address of the network interface. Can be a static IPv4 address (in CIDR notation), "dhcp", or "manual"."
+}
+variable "NETWORK_IP6" {
+  type = string
+  description = "The IPv6 address of the network interface. Can be a static IPv6 address (in CIDR notation), "auto" , "dhcp", or "manual"."
+}
+variable "NETWORK_MTU" {
+  type = string
+  description = "A string to set the MTU on the network interface."
+}
+variable "NETWORK_RATE" {
+  type = number
+  description = "A number that sets rate limiting on the network interface (Mbps)."
+}
+variable "NETWORK_TAG" {
+  type = number
+  description = "A number that specifies the VLAN tag of the network interface. Automatically determined if not set."
+}
+variable "ONBOOT" {
+  type = bool
+  default = false
+  description = "A boolean that determines if the container will start on boot. Default is false."
+}
+variable "OSTYPE" {
+  type = string
+  description = "The operating system type, used by LXC to set up and configure the container. Automatically determined if not set."
+}
+variable "PASSWORD" {
+  type = string
+  description = "Sets the root password inside the container."
+  sensitive = true
+}
+variable "POOL" {
+  type = string
+  description = "The name of the Proxmox resource pool to add this container to."
+}
+variable "PROTECTION" {
+  type = bool
+  default = false
+  description = "A boolean that enables the protection flag on this container. Stops the container and its disk from being removed/updated. Default is false."
+}
+variable "RESTORE" {
+  type = bool
+  description = "A boolean to mark the container creation/update as a restore task."
+}
+variable "ROOTFS" {
+  type = string
+  description = "An object for configuring the root mount point of the container. Can only be specified once."
+}
+variable "ROOTFS_SIZE" {
+  type = string
+  description = "(required) - Size of the underlying volume. Must end in T, G, M, or K (e.g. "1T", "1G", "1024M" , "1048576K"). Note that this is a read only value."
+}
+variable "ROOTFS_STORAGE" {
+  type = string
+  description = "(required) - A string containing the volume , directory, or device to be mounted into the container (at the path specified by mp). E.g. local-lvm, local-zfs, local etc."
+}
+variable "SEARCHDOMAIN" {
+  type = string
+  description = "Sets the DNS search domains for the container. If neither nameserver nor searchdomain are specified, the values of the Proxmox host will be used by default."
+}
+variable "SSH_PUBLIC_KEYS" {
+  type = string
+  description = "Multi-line string of SSH public keys that will be added to the container. Can be defined using heredoc syntax."
+}
+variable "START" {
+  type = bool
+  default = false
+  description = "A boolean that determines if the container is started after creation. Default is false."
+}
+variable "STARTUP" {
+  type = string
+  description = "The startup and shutdown behaviour of the container."
+}
+variable "SWAP" {
+  type = number
+  default = 512
+  description = "A number that sets the amount of swap memory available to the container. Default is 512."
+}
+variable "TAGS" {
+  type = string
+  description = "Tags of the container. This is only meta information."
+}
+variable "TEMPLATE" {
+  type = bool
+  description = "A boolean that determines if this container is a template."
+}
+variable "TTY" {
+  type = 
+  default = 2
+  description = "A number that specifies the TTYs available to the container. Default is 2."
+}
+variable "UNIQUE" {
+  type = bool
+  description = "A boolean that determines if a unique random ethernet address is assigned to the container."
+}
+variable "UNPRIVILEGED" {
+  type = bool
+  default = false
+  description = "A boolean that makes the container run as an unprivileged user. Default is false."
+}
+variable "VMID" {
+  type = number
+  default = 0
+  description = "A number that sets the VMID of the container. If set to 0, the next available VMID is used. Default is 0."
+}

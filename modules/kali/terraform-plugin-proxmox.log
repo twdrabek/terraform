@@ -1,0 +1,51 @@
+[90mFri, 15 Mar 2024 16:13:10 -0500[0m [32mINF[0m [1mgithub.com/Telmate/terraform-provider-proxmox/v2/proxmox/util.go:159[0m[36m >[0m Enabling the capture of log-library logs as ithe _capturelog flag was detected
+[90mFri, 15 Mar 2024 16:13:10 -0500[0m [32mINF[0m [1mgithub.com/Telmate/terraform-provider-proxmox/v2/proxmox/util.go:192[0m[36m >[0m Logging Started. Root Logger Set to level debug
+[90mFri, 15 Mar 2024 16:13:13 -0500[0m [32mINF[0m [1mgithub.com/Telmate/terraform-provider-proxmox/v2/proxmox/util.go:159[0m[36m >[0m Enabling the capture of log-library logs as ithe _capturelog flag was detected
+[90mFri, 15 Mar 2024 16:13:13 -0500[0m [32mINF[0m [1mgithub.com/Telmate/terraform-provider-proxmox/v2/proxmox/util.go:192[0m[36m >[0m Logging Started. Root Logger Set to level debug
+2024/03/15 16:13:13 [DEBUG] setting computed for "unused" from ComputedKeys
+2024/03/15 16:13:13 >>>>>>>>>> REQUEST:
+GET /api2/json/cluster/nextid HTTP/1.1
+Host: 10.10.0.2:8006
+User-Agent: Go-http-client/1.1
+Accept: application/json
+Authorization: PVEAuthCookie=PVE:terraform-prov@pve:65F4B9E9::mJ+tVjT4E6Ppb2hnPkGhnnHscTTXFvjrYeCxv8bgijQXQNE5ktJeVLn0pUD31r0SPKY4+hhBAiOPih64nMpkFJ10RI9psDw7HrOJMcccmb5sxUb38UNTMwaUJ1mPKH39rv8nt1F7yK6asLXLBWsnWaEbSz9JLua1mM6fwHfy/7IVh8mMf86BflHOsmEEfKwql6QTTqYHFzKOX/gpQVBnLCnKa3hqxQ6Z87AHK8OKV3GRxX2yUJWXgTwqSmn6DcnsiT1Xn5T/5aD4xzb1rdn10e9xdPRtdzuQ0nNyY+W2SLohopBNgiscXH3N64oFv/JCYlFUfECMlXQMtzxF+fa9Lg==
+CSRFPreventionToken: 65F4B9E9:8jiRAeEzWtjiAj2E7yI00Gp74vOtGRIxzJX6SbomaVA
+Accept-Encoding: gzip
+
+2024/03/15 16:13:13 <<<<<<<<<< RESULT:
+HTTP/1.1 200 OK
+Content-Length: 14
+Cache-Control: max-age=0
+Connection: Keep-Alive
+Content-Type: application/json;charset=UTF-8
+Date: Fri, 15 Mar 2024 21:13:13 GMT
+Expires: Fri, 15 Mar 2024 21:13:13 GMT
+Pragma: no-cache
+Server: pve-api-daemon/3.0
+
+{"data":"113"}
+2024/03/15 16:13:13 [DEBUG][LxcCreate] cloning LXC
+2024/03/15 16:13:13 >>>>>>>>>> REQUEST:
+POST /api2/json/nodes/pve/lxc/200/clone HTTP/1.1
+Host: 10.10.0.2:8006
+User-Agent: Go-http-client/1.1
+Content-Length: 74
+Accept: application/json
+Authorization: PVEAuthCookie=PVE:terraform-prov@pve:65F4B9E9::mJ+tVjT4E6Ppb2hnPkGhnnHscTTXFvjrYeCxv8bgijQXQNE5ktJeVLn0pUD31r0SPKY4+hhBAiOPih64nMpkFJ10RI9psDw7HrOJMcccmb5sxUb38UNTMwaUJ1mPKH39rv8nt1F7yK6asLXLBWsnWaEbSz9JLua1mM6fwHfy/7IVh8mMf86BflHOsmEEfKwql6QTTqYHFzKOX/gpQVBnLCnKa3hqxQ6Z87AHK8OKV3GRxX2yUJWXgTwqSmn6DcnsiT1Xn5T/5aD4xzb1rdn10e9xdPRtdzuQ0nNyY+W2SLohopBNgiscXH3N64oFv/JCYlFUfECMlXQMtzxF+fa9Lg==
+CSRFPreventionToken: 65F4B9E9:8jiRAeEzWtjiAj2E7yI00Gp74vOtGRIxzJX6SbomaVA
+Content-Type: application/x-www-form-urlencoded
+Accept-Encoding: gzip
+
+full=0&hostname=h4ndl3&newid=113&node=pve&storage=Mass&target=pve&vmid=200
+2024/03/15 16:13:13 <<<<<<<<<< RESULT:
+HTTP/1.1 500 Configuration file 'nodes/pve/lxc/200.conf' does not exist
+Connection: close
+Content-Length: 13
+Cache-Control: max-age=0
+Content-Type: application/json;charset=UTF-8
+Date: Fri, 15 Mar 2024 21:13:13 GMT
+Expires: Fri, 15 Mar 2024 21:13:13 GMT
+Pragma: no-cache
+Server: pve-api-daemon/3.0
+
+{"data":null}

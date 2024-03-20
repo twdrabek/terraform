@@ -1,0 +1,32 @@
+variable "NAME" {
+  type = string
+  description = "Required The name of the Cloud Init disk."
+}
+variable "PVE_NODE" {
+  type = string
+  description = "Required The name of the Proxmox Node on which to place the ISO."
+}
+variable "STORAGE" {
+  type = string
+  description = "Required The name of the Proxmox Storage on which to place the ISO."
+}
+variable "META_DATA" {
+  type = string
+  default = ""
+  description = "Content of the meta-data file."
+}
+variable "USER_DATA" {
+  type = string
+  default = ""
+  description = "Content of the user-data file."
+}
+variable "VENDOR_DATA" {
+  type = string
+  default = ""
+  description = "Content of the vendor-data file."
+}
+variable "NETWORK_CONFIG" {
+  type = string
+  default = ""
+  description = "Content of the network-config file."
+}
