@@ -29,9 +29,8 @@ resource "proxmox_lxc" "ansible" {
     start = true
     onboot = true
 
-    ssh_public_keys = <<-EOT
-        ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC6oiNDN1Hca018vNYdCn90MnEjNSDpSpNApk4nwwkfs377pRkAwvin7vB0rQCMItp35bCaeyfR/K72aD4eWWxibUh+hymlAMlYALUd8w5RPk8L5Lg05yW45rjd73BH3dCwFAPdCXDLnSzdzJH1P3OdsnJgR3PfWKxkXuPDaB/I0QBnuSYalQdWKpPrR/wyejRHfL8rP4m7CSf2UflF2cn3C8rQkZL7imuMMJaKN4e1QVr29s7rK5axNaix3A+uu9w76R+3spbclZjmbhjvM7bu9Hz9LFu2MiHe5ghIe02cHUsQiqS05aBqUhhhwjI/MycmCxdI2HsNVEUzHp3ZlhAMGtRAfcBgVGYWhP5/CyZbMybAqxb0C1jV2+VeBOyjL8A+DkEJC9ki+XlHppoMgkkvBjcs+c2EOHcAY3q4U5zc1Xr95HFptKKnGN/FPLT1SVR9QIpLljNOXk9V1xnf9loxuw90/H1LE4V0LuzMuKr7+CinkWaeOuVeQSD/1EABKzU= h4ndl3@ubuntu
-    EOT
+    # ssh_public_keys = <<-EOT
+    #     EOT
 
     // Memory in MB
     memory = 8192
