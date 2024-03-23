@@ -11,26 +11,26 @@ terraform {
     }
 }
 
-variable "PM_CPASS" {
+variable "PM_PASSWORD" {
     type = string
     sensitive = true
     description = "Container password"
 }
-variable "TF_VAR_ID_RSA_PUB" {
+variable "ID_RSA_PUB" {
     type = string
+    sensitive = true
 }
 
 resource "proxmox_lxc" "ansible" {
     target_node  = "pve"
-    hostname     = "Ansible"
+    hostname     = "ansible"
     ostemplate   = "Mass:vztmpl/ubuntu-23.10-standard_23.10-1_amd64.tar.zst"
-    password     = var.PM_CPASS
+    password     = var.PM_PASSWORD
     unprivileged = true
     start = true
     onboot = true
 
-    # ssh_public_keys = <<-EOT
-    #     EOT
+    ssh_public_keys = "${var.ID_RSA_PUB}"
 
     // Memory in MB
     memory = 8192

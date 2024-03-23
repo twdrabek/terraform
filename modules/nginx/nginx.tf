@@ -7,17 +7,21 @@ terraform {
     }
 }
 
-variable "PM_CPASS" {
+variable "PM_PASSWORD" {
     type = string
     sensitive = true
     description = "Container password"
 }
+variable "ID_RSA_PUB" {
+    type = string
+    sensitive = true
+}
 
 resource "proxmox_lxc" "nginx" {
     target_node  = "pve"
-    hostname     = "Nginx"
+    hostname     = "nginx"
     ostemplate   = "Mass:vztmpl/debian-12-turnkey-nginx-php-fastcgi_18.0-1_amd64.tar.gz"
-    password     = var.PM_CPASS
+    password     = var.PM_PASSWORD
     unprivileged = true
     start = true
     onboot = true
@@ -36,6 +40,8 @@ resource "proxmox_lxc" "nginx" {
         bridge = "vmbr0"
         ip     = "dhcp"
     }
+
+    ssh_public_keys = "${var.ID_RSA_PUB}"
 
     tags = "Service Security"
 }

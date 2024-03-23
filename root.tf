@@ -1,23 +1,23 @@
 terraform {
-  required_providers {
-    proxmox = {
-      source = "Telmate/proxmox"
-      version = "3.0.1-rc1"
+    required_providers {
+        proxmox = {
+            source = "Telmate/proxmox"
+            version = "3.0.1-rc1"
+        }
+        ansible = {
+            source = "ansible/ansible"
+            version = "1.2.0"
+        }
     }
-      ansible = {
-      source = "ansible/ansible"
-      version = "1.2.0"
-    }
-  }
 }
 
 provider "proxmox" {
 pm_api_url = var.PM_API_URL
 # pm_proxy_server = 
-pm_user = var.PM_USER
-pm_password = var.PM_PASSWORD
-# pm_api_token_id = var.PM_API_TOKEN_ID
-# pm_api_token_secret = var.PM_API_TOKEN_SECRET
+# pm_user = var.PM_USER
+# pm_password = var.PM_PASSWORD
+pm_api_token_id = var.PM_API_TOKEN_ID
+pm_api_token_secret = var.PM_API_TOKEN_SECRET
 # pm_otp = 
 # pm_otp_prompt = 
 pm_tls_insecure = true
@@ -30,48 +30,50 @@ pm_debug = true
 }
 
 module "ansible" {
-  source = "./modules/ansible"
+    source = "./modules/ansible"
 
-  PM_CPASS = var.PM_CPASS
+    PM_PASSWORD = var.PM_PASSWORD
+    ID_RSA_PUB = "${var.ID_RSA_PUB}"
 }
 
 #connecting to the Ansible control node using SSH connection
 resource "null_resource" "nullremote1" {
-  depends_on = [module.ansible]
-  connection {
-  type     = "ssh"
-  user     = "root"
-  password = "${var.PM_CPASS}"
-  host= proxmox.ansible.ip
-  }
+    depends_on = [module.ansible]
+    connection {
+    type     = "ssh"
+    user     = "root"
+    # password = "${var.PM_PASSWORD}"
+    host= proxmox.ansible.ip
+    }
 }
 
 module "gitlab" {
-  source = "./modules/gitlab"
+    source = "./modules/gitlab"
 
-  PM_CPASS = var.PM_CPASS
+    PM_PASSWORD = var.PM_PASSWORD
+    ID_RSA_PUB = "${var.ID_RSA_PUB}"
 }
 
 module "nginx" {
-  source = "./modules/nginx"
+    source = "./modules/nginx"
 
-  PM_CPASS = var.PM_CPASS
+    PM_PASSWORD = var.PM_PASSWORD
+    ID_RSA_PUB = "${var.ID_RSA_PUB}"
 }
 
 module "grafana" {
-  source = "./modules/grafana"
+    source = "./modules/grafana"
 
-  HOSTNAME = "Grafana"
-  PM_CPASS = var.PM_CPASS
+    PM_PASSWORD = var.PM_PASSWORD
+    ID_RSA_PUB = "${var.ID_RSA_PUB}"
 }
 
 module "loki" {
-  source = "./modules/loki"
+    source = "./modules/loki"
 
-  HOSTNAME = "Loki"
-  PM_CPASS = var.PM_CPASS
+    PM_PASSWORD = var.PM_PASSWORD
+    ID_RSA_PUB = "${var.ID_RSA_PUB}"
 }
-
 
 
 # module "pihole" {

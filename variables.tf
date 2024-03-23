@@ -9,10 +9,10 @@ variable "PM_PROXY_SERVER" {
   default = null
 }
 
-variable "PM_USER" {
-  description = "(Optional) The user, remember to include the authentication realm such as myuser@pam or myuser@pve."
-  type = string
-}
+# variable "PM_USER" {
+#   description = "(Optional) The user, remember to include the authentication realm such as myuser@pam or myuser@pve."
+#   type = string
+# }
 
 variable "PM_PASSWORD" {
   description = "(Optional) The password."
@@ -20,23 +20,23 @@ variable "PM_PASSWORD" {
   sensitive = true
 }
 
-variable "PM_CPASS" {
-  description = "(Optional) The container password."
+# variable "PM_CPASS" {
+#   description = "(Optional) The container password."
+#   type = string
+#   sensitive = true
+# }
+
+variable "PM_API_TOKEN_ID" {
+  description = "(Optional) This is an API token you have previously created for a specific user."
   type = string
   sensitive = true
 }
 
-# variable "PM_API_TOKEN_ID" {
-#   description = "(Optional) This is an API token you have previously created for a specific user."
-#   type = string
-#   sensitive = true
-# }
-
-# variable "PM_API_TOKEN_SECRET" {
-#   description = "(Optional) This uuid is only available when the token was initially created."
-#   type = string
-#   sensitive = true
-# }
+variable "PM_API_TOKEN_SECRET" {
+  description = "(Optional) This uuid is only available when the token was initially created."
+  type = string
+  sensitive = true
+}
 
 # variable "PM_OTP" {
 #   description = "(Optional) The 2FA OTP code."
@@ -88,4 +88,9 @@ variable "PM_DEBUG" {
   description = "(Optional) Enable verbose output in proxmox-api-go"
   type = bool
   default = false
+}
+
+variable "ID_RSA_PUB" {
+  description = "(Optional) SSH public key."
+  type = string
 }

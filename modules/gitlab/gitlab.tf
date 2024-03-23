@@ -7,17 +7,21 @@ terraform {
     }
 }
 
-variable "PM_CPASS" {
+variable "PM_PASSWORD" {
     type = string
     sensitive = true
     description = "Container password"
 }
+variable "ID_RSA_PUB" {
+    type = string
+    sensitive = true
+}
 
 resource "proxmox_lxc" "gitlab" {
     target_node  = "pve"
-    hostname     = "Gitlab"
+    hostname     = "gitlab"
     ostemplate   = "Mass:vztmpl/debian-11-turnkey-gitlab_17.1-1_amd64.tar.gz"
-    password     = var.PM_CPASS
+    password     = var.PM_PASSWORD
     unprivileged = true
     start = true
     onboot = true
@@ -36,6 +40,8 @@ resource "proxmox_lxc" "gitlab" {
         bridge = "vmbr0"
         ip     = "dhcp"
     }
+
+    ssh_public_keys = "${var.ID_RSA_PUB}"
 
     tags = "Service"
 }

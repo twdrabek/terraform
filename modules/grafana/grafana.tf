@@ -13,8 +13,13 @@ terraform {
 
 variable "HOSTNAME" {
     type = string
+    default = "grafana"
 }
-variable "PM_CPASS" {
+variable "ID_RSA_PUB" {
+    type = string
+    sensitive = true
+}
+variable "PM_PASSWORD" {
     type = string
     sensitive = true
 }
@@ -25,9 +30,9 @@ variable "PLAYBOOK" {
 
 resource "proxmox_lxc" "grafana" {
     target_node  = "pve"
-    hostname     = var.HOSTNAME
+    hostname     = "grafana"
     ostemplate   = "Mass:vztmpl/ubuntu-23.10-standard_23.10-1_amd64.tar.zst"
-    password     = var.PM_CPASS
+    password     = var.PM_PASSWORD
     unprivileged = true
     onboot = true
     start = true
@@ -48,13 +53,20 @@ resource "proxmox_lxc" "grafana" {
         ip     = "dhcp"
     }
 
+    ssh_public_keys = "${var.ID_RSA_PUB}"
+
     tags = "Security Monitoring"
 
-    provisioner "remote-exec" {
-        # execute_command = "chmod +x {{ .Path }}; {{ .Vars }} sudo -E sh '{{ .Path }}'"
-        inline          = ["/usr/sbin/waagent -force -deprovision+user && export HISTSIZE=0 && sync"]
-        # inline_shebang  = "/bin/sh -x"
-    }
+    # provisioner "remote-exec" {
+    #     inline          = ["/usr/sbin/waagent -force -deprovision+user && export HISTSIZE=0 && sync"]
+    #     connection {
+    #         type     = "ssh"
+    #         user     = "root"
+    #         password = var.PM_PASSWORD
+    #         host     = proxmox_lxc.grafana.network[0].ip
+    #         agent = false
+    #     }
+    # }
 
 }
 
