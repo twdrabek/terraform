@@ -11,6 +11,15 @@ terraform {
     }
 }
 
+# locals {
+#   decoded_vault_yaml = yamldecode(ansible_vault.secrets.yaml)
+# }
+
+# resource "ansible_vault" "secrets" {
+#   vault_file          = "vault.yml"
+#   vault_password_file = "/path/to/file"
+# }
+
 provider "proxmox" {
 pm_api_url = var.PM_API_URL
 # pm_proxy_server = 
@@ -29,37 +38,45 @@ pm_log_levels = var.PM_LOG_LEVELS
 pm_debug = true
 }
 
-module "ansible" {
-    source = "./modules/ansible"
+provider "ansible" {}
 
-    PM_PASSWORD = var.PM_PASSWORD
-    ID_RSA_PUB = "${var.ID_RSA_PUB}"
-}
+# resource "ansible_host" "host" {
+#   name   = "somehost"
+#   groups = ["somegroup"]
 
-#connecting to the Ansible control node using SSH connection
-resource "null_resource" "nullremote1" {
-    depends_on = [module.ansible]
-    connection {
-    type     = "ssh"
-    user     = "root"
-    # password = "${var.PM_PASSWORD}"
-    host= proxmox.ansible.ip
-    }
-}
+#   variables = {
+#     greetings   = "from host!"
+#     some        = "variable"
+#     yaml_hello  = local.decoded_vault_yaml.hello
+#     yaml_number = local.decoded_vault_yaml.a_number
 
-module "gitlab" {
-    source = "./modules/gitlab"
+#     # using jsonencode() here is needed to stringify 
+#     # a list that looks like: [ element_1, element_2, ..., element_N ]
+#     yaml_list = jsonencode(local.decoded_vault_yaml.a_list)
+#   }
+# }
 
-    PM_PASSWORD = var.PM_PASSWORD
-    ID_RSA_PUB = "${var.ID_RSA_PUB}"
-}
+# resource "ansible_group" "group" {
+#   name     = "somegroup"
+#   children = ["somechild"]
+#   variables = {
+#     hello = "from group!"
+#   }
+# }
 
-module "nginx" {
-    source = "./modules/nginx"
+# module "gitlab" {
+#     source = "./modules/gitlab"
 
-    PM_PASSWORD = var.PM_PASSWORD
-    ID_RSA_PUB = "${var.ID_RSA_PUB}"
-}
+#     PM_PASSWORD = var.PM_PASSWORD
+#     ID_RSA_PUB = "${var.ID_RSA_PUB}"
+# }
+
+# module "nginx" {
+#     source = "./modules/nginx"
+
+#     PM_PASSWORD = var.PM_PASSWORD
+#     ID_RSA_PUB = "${var.ID_RSA_PUB}"
+# }
 
 module "grafana" {
     source = "./modules/grafana"
@@ -68,12 +85,12 @@ module "grafana" {
     ID_RSA_PUB = "${var.ID_RSA_PUB}"
 }
 
-module "loki" {
-    source = "./modules/loki"
+# module "loki" {
+#     source = "./modules/loki"
 
-    PM_PASSWORD = var.PM_PASSWORD
-    ID_RSA_PUB = "${var.ID_RSA_PUB}"
-}
+#     PM_PASSWORD = var.PM_PASSWORD
+#     ID_RSA_PUB = "${var.ID_RSA_PUB}"
+# }
 
 
 # module "pihole" {

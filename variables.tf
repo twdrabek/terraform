@@ -94,3 +94,18 @@ variable "ID_RSA_PUB" {
   description = "(Optional) SSH public key."
   type = string
 }
+
+variable "ANSIBLE_ROOT_PASS" {
+    type = string
+    sensitive = true
+}
+
+variable "ANSIBLE_DB_PASS" {
+    type = string
+    sensitive = true
+}
+
+variable "ANSIBLE_APP_PASS" {
+    type = string
+    sensitive = true
+}

@@ -30,7 +30,7 @@ variable "PLAYBOOK" {
 
 resource "proxmox_lxc" "grafana" {
     target_node  = "pve"
-    hostname     = "grafana"
+    hostname     = var.HOSTNAME
     ostemplate   = "Mass:vztmpl/ubuntu-23.10-standard_23.10-1_amd64.tar.zst"
     password     = var.PM_PASSWORD
     unprivileged = true
@@ -46,39 +46,28 @@ resource "proxmox_lxc" "grafana" {
     // Memory in MB
     memory = 16384
 
+    nameserver = "10.10.0.5"
 
     network {
         name   = "eth0"
         bridge = "vmbr0"
         ip     = "dhcp"
+        gw = "10.10.0.1"
     }
 
     ssh_public_keys = "${var.ID_RSA_PUB}"
 
-    tags = "Security Monitoring"
-
-    # provisioner "remote-exec" {
-    #     inline          = ["/usr/sbin/waagent -force -deprovision+user && export HISTSIZE=0 && sync"]
-    #     connection {
-    #         type     = "ssh"
-    #         user     = "root"
-    #         password = var.PM_PASSWORD
-    #         host     = proxmox_lxc.grafana.network[0].ip
-    #         agent = false
-    #     }
-    # }
-
+    tags = "Security Monitoring Grafana"
 }
 
 resource "ansible_host" "grafana" {
-    name = ansible_playbook.grafana_playbook.playbook
+    depends_on = [ proxmox_lxc.grafana ]
+    name = var.HOSTNAME
     groups = [ "Security", "Grafana" ]
-    variables = {
-        HOSTNAME = var.HOSTNAME
-    }
 }
 
 resource "ansible_playbook" "grafana_playbook" {
+    depends_on = [ proxmox_lxc.grafana ]
     playbook   = "/home/h4ndl3/Projects/Terraform/modules/grafana/files/playbook.yaml"
     name       = var.HOSTNAME
     replayable = true
