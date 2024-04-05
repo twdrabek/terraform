@@ -1,6 +1,6 @@
 ---
 - name: Install Grafana
-  hosts: "${ var.HOSTNAME }"
+  hosts: all
   remote_user: root
 
   tasks:
@@ -13,21 +13,29 @@
           - wget
     - name: Make keyring directory
       ansible.builtin.file:
+        path: /opt/grafana
+        state: directory
+        mode: '0755'
+    - name: Make keyring directory
+      ansible.builtin.file:
         path: /etc/apt/keyrings
         state: directory
         mode: '0755'
     - name: Download GPG keys
       ansible.builtin.apt_key:
         url: https://apt.grafana.com/gpg.key
+        keyring: /etc/apt/keyrings/grafana.gpg
         state: present
     - name: Add Grafana repositories
       ansible.builtin.apt_repository:
-        repo: https://apt.grafana.com stable main
+        repo: deb [signed-by=/etc/apt/keyrings/grafana.gpg] https://apt.grafana.com stable main #https://packages.grafana.com/oss/deb stable main
         state: present
+    - name: Update package repositories
+      ansible.builtin.apt:
+        update-cache: true
     - name: Update packages and install Grafana
       ansible.builtin.apt:
         name: grafana
-        update-cache: true
     - name: Configure systemd
       ansible.builtin.systemd_service:
         name: Systemd daemon-reload

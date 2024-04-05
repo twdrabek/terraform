@@ -51,7 +51,7 @@ resource "proxmox_lxc" "grafana" {
     network {
         name   = "eth0"
         bridge = "vmbr0"
-        ip     = "dhcp"
+        ip     = "10.10.0.10/24"
         gw = "10.10.0.1"
     }
 
@@ -61,14 +61,25 @@ resource "proxmox_lxc" "grafana" {
 }
 
 resource "ansible_host" "grafana" {
-    depends_on = [ proxmox_lxc.grafana ]
-    name = var.HOSTNAME
+    name = trimsuffix(proxmox_lxc.grafana.network[0].ip, "/24")
     groups = [ "Security", "Grafana" ]
+    
+    depends_on = [ proxmox_lxc.grafana ]
 }
 
 resource "ansible_playbook" "grafana_playbook" {
-    depends_on = [ proxmox_lxc.grafana ]
     playbook   = "/home/h4ndl3/Projects/Terraform/modules/grafana/files/playbook.yaml"
-    name       = var.HOSTNAME
+    name = trimsuffix(proxmox_lxc.grafana.network[0].ip, "/24")
     replayable = true
+    verbosity = 6
+
+    
+
+    connection {
+        type        = "ssh"
+        user        = "root"
+        host        = trimsuffix(proxmox_lxc.grafana.network[0].ip, "/24")
+    }
+    
+    depends_on = [ ansible_host.grafana ]
 }

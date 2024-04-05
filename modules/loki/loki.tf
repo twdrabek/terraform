@@ -11,6 +11,10 @@ terraform {
     }
 }
 
+variable "HOSTNAME" {
+    type = string
+    default = "loki"
+}
 variable "PM_PASSWORD" {
     type = string
     sensitive = true
@@ -26,7 +30,7 @@ variable "PLAYBOOK" {
 
 resource "proxmox_lxc" "loki" {
     target_node  = "pve"
-    hostname     = "loki"
+    hostname     = var.HOSTNAME
     ostemplate   = "Mass:vztmpl/ubuntu-23.10-standard_23.10-1_amd64.tar.zst"
     password     = var.PM_PASSWORD
     unprivileged = true
@@ -45,36 +49,35 @@ resource "proxmox_lxc" "loki" {
     network {
         name   = "eth0"
         bridge = "vmbr0"
-        ip     = "dhcp"
+        ip     = "10.10.0.11/24"
+        gw     = "10.10.0.1"
     }
 
     ssh_public_keys = "${var.ID_RSA_PUB}"
 
-    tags = "Security Monitoring"
-
-    # provisioner "remote-exec" {
-    #     inline = ["/usr/sbin/waagent -force -deprovision+user && export HISTSIZE=0 && sync"]
-    # }
-    #     connection {
-    #         type     = "ssh"
-    #         user     = "root"
-    #         password = var.PM_CPASS
-    #         host     = proxmox_lxc.loki.network[0].ip
-    #         agent = false
-    #     }
-
+    tags = "Security Monitoring Loki"
 }
 
 resource "ansible_host" "loki" {
-    name = ansible_playbook.loki_playbook.playbook
-    groups = [ "Security", "Grafana" ]
+    name = trimsuffix(proxmox_lxc.loki.network[0].ip, "/24")
+    groups = [ "Security", "Loki" ]
     variables = {
         HOSTNAME = "loki"
     }
+
+    depends_on = [ proxmox_lxc.loki ]
 }
 
 resource "ansible_playbook" "loki_playbook" {
     playbook   = "/home/h4ndl3/Projects/Terraform/modules/loki/files/playbook.yaml"
-    name       = "loki"
+    name       = trimsuffix(proxmox_lxc.loki.network[0].ip, "/24")
     replayable = true
+
+    connection {
+        type        = "ssh"
+        user        = "root"
+        host        = trimsuffix(proxmox_lxc.loki.network[0].ip, "/24")
+    }
+    
+    depends_on = [ proxmox_lxc.loki ]
 }

@@ -1,6 +1,6 @@
 ---
 - name: Install Loki
-  hosts: "${ var.HOSTNAME }"
+  hosts: all
   remote_user: root
 
   tasks:
@@ -22,9 +22,9 @@
         state: present
     - name: Add Grafana repositories
       ansible.builtin.apt_repository:
-        repo: https://apt.grafana.com stable main
+        repo: deb [signed-by=/etc/apt/keyrings/grafana.gpg] https://apt.grafana.com stable main
         state: present
-    - name: Update packages and install Loki and Promtail
+    - name: Update packages then install Loki and Promtail
       ansible.builtin.apt:
         update-cache: true
         pkg:
