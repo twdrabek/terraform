@@ -81,5 +81,5 @@ resource "ansible_playbook" "grafana_playbook" {
         host        = trimsuffix(proxmox_lxc.grafana.network[0].ip, "/24")
     }
     
-    depends_on = [ ansible_host.grafana ]
+    depends_on = [ proxmox_lxc.grafana ]
 }

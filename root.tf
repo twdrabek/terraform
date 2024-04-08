@@ -62,12 +62,33 @@ module "grafana" {
 }
 
 module "loki" {
+#   Loki -> Logging https://grafana.com/docs/loki/latest/
     source = "./modules/loki"
 
     PM_PASSWORD = var.PM_PASSWORD
     ID_RSA_PUB = "${var.ID_RSA_PUB}"
 }
 
+module "prometheus" {
+#   Prometheus -> Metrics https://grafana.com/docs/grafana/latest/datasources/prometheus/
+    source = "./modules/prometheus"
+
+    PM_PASSWORD = var.PM_PASSWORD
+    ID_RSA_PUB = "${var.ID_RSA_PUB}"
+}
+
+#################################################################################################
+# Add data source for "prometheus_targets", Ansible host file might be useful or the statefile. #
+#################################################################################################
+
+
+module "mimir" {
+#   Mimir -> https://grafana.com/docs/mimir/latest/
+    source = "./modules/mimir"
+
+    PM_PASSWORD = var.PM_PASSWORD
+    ID_RSA_PUB = "${var.ID_RSA_PUB}"
+}
 
 # module "pihole" {
 #   source = "./modules/pihole"
@@ -75,9 +96,6 @@ module "loki" {
 #   PM_PASSWORD = var.PM_PASSWORD
 # }
 
-#   Loki -> Logging https://grafana.com/docs/loki/latest/
-#   Prometheus -> Metrics https://grafana.com/docs/grafana/latest/datasources/prometheus/
-#   Mimir -> https://grafana.com/docs/mimir/latest/
 #   SNORT -> NIDPS  https://www.snort.org/
 #   Tempo -> Tracing https://grafana.com/docs/tempo/latest/
 # Guacamole -> Web RAT

@@ -25,7 +25,7 @@ variable "ID_RSA_PUB" {
 }
 variable "PLAYBOOK" {
     type = string
-    default = "./files/playbook.yaml"
+    default = "./loki/files/playbook.yaml"
 }
 
 resource "proxmox_lxc" "loki" {
@@ -46,6 +46,8 @@ resource "proxmox_lxc" "loki" {
     // Memory in MB
     memory = 16384
 
+    nameserver = "10.10.0.5"
+
     network {
         name   = "eth0"
         bridge = "vmbr0"
@@ -62,7 +64,7 @@ resource "ansible_host" "loki" {
     name = trimsuffix(proxmox_lxc.loki.network[0].ip, "/24")
     groups = [ "Security", "Loki" ]
     variables = {
-        HOSTNAME = "loki"
+        HOSTNAME = var.HOSTNAME
     }
 
     depends_on = [ proxmox_lxc.loki ]

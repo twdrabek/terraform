@@ -2,8 +2,15 @@
 - name: Install Grafana
   hosts: all
   remote_user: root
+  gather_facts: no
 
   tasks:
+    - name: Wait until SSH is available
+      ansible.builtin.wait_for_connection:
+        delay: 30
+        timeout: 60
+    - name: Gather facts
+      ansible.builtin.setup:
     - name: Install apt-transport-https, software-properties-common, and wget.
       ansible.builtin.apt:
         update_cache: true
