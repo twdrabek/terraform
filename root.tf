@@ -1,14 +1,14 @@
 terraform {
-    required_providers {
-        proxmox = {
-            source = "Telmate/proxmox"
-            version = "3.0.1-rc1"
-        }
-        ansible = {
-            source = "ansible/ansible"
-            version = "1.2.0"
-        }
+  required_providers {
+    proxmox = {
+      source  = "Telmate/proxmox"
+      version = "3.0.1-rc1"
     }
+    ansible = {
+      source  = "ansible/ansible"
+      version = "1.2.0"
+    }
+  }
 }
 
 # locals {
@@ -21,21 +21,21 @@ terraform {
 # }
 
 provider "proxmox" {
-pm_api_url = var.PM_API_URL
-# pm_proxy_server = 
-# pm_user = var.PM_USER
-# pm_password = var.PM_PASSWORD
-pm_api_token_id = var.PM_API_TOKEN_ID
-pm_api_token_secret = var.PM_API_TOKEN_SECRET
-# pm_otp = 
-# pm_otp_prompt = 
-pm_tls_insecure = true
-# pm_parallel = 
-pm_log_enable = true 
-pm_log_file = var.PM_LOG_FILE
-pm_log_levels = var.PM_LOG_LEVELS
-# pm_timeout = 
-pm_debug = true
+  pm_api_url = var.PM_API_URL
+  # pm_proxy_server = 
+  # pm_user = var.PM_USER
+  # pm_password = var.PM_PASSWORD
+  pm_api_token_id     = var.PM_API_TOKEN_ID
+  pm_api_token_secret = var.PM_API_TOKEN_SECRET
+  # pm_otp = 
+  # pm_otp_prompt = 
+  pm_tls_insecure = true
+  # pm_parallel = 
+  pm_log_enable = true
+  pm_log_file   = var.PM_LOG_FILE
+  pm_log_levels = var.PM_LOG_LEVELS
+  # pm_timeout = 
+  pm_debug = true
 }
 
 provider "ansible" {}
@@ -47,34 +47,36 @@ provider "ansible" {}
 #     ID_RSA_PUB = "${var.ID_RSA_PUB}"
 # }
 
-# module "nginx" {
-#     source = "./modules/nginx"
-
-#     PM_PASSWORD = var.PM_PASSWORD
-#     ID_RSA_PUB = "${var.ID_RSA_PUB}"
-# }
-
-module "grafana" {
-    source = "./modules/grafana"
+module "nginx" {
+    source = "./modules/nginx"
 
     PM_PASSWORD = var.PM_PASSWORD
     ID_RSA_PUB = "${var.ID_RSA_PUB}"
+}
+
+module "grafana" {
+  source = "./modules/grafana"
+
+  PM_PASSWORD      = var.PM_PASSWORD
+  ID_RSA_PUB       = var.ID_RSA_PUB
+  GRAFANA_USERNAME = var.GRAFANA_USERNAME
+  GRAFANA_PASSWORD = var.GRAFANA_PASSWORD
 }
 
 module "loki" {
-#   Loki -> Logging https://grafana.com/docs/loki/latest/
-    source = "./modules/loki"
+  #   Loki -> Logging https://grafana.com/docs/loki/latest/
+  source = "./modules/loki"
 
-    PM_PASSWORD = var.PM_PASSWORD
-    ID_RSA_PUB = "${var.ID_RSA_PUB}"
+  PM_PASSWORD       = var.PM_PASSWORD
+  ID_RSA_PUB        = var.ID_RSA_PUB
 }
 
 module "prometheus" {
-#   Prometheus -> Metrics https://grafana.com/docs/grafana/latest/datasources/prometheus/
-    source = "./modules/prometheus"
+  #   Prometheus -> Metrics https://grafana.com/docs/grafana/latest/datasources/prometheus/
+  source = "./modules/prometheus"
 
-    PM_PASSWORD = var.PM_PASSWORD
-    ID_RSA_PUB = "${var.ID_RSA_PUB}"
+  PM_PASSWORD             = var.PM_PASSWORD
+  ID_RSA_PUB              = var.ID_RSA_PUB
 }
 
 #################################################################################################
@@ -90,15 +92,22 @@ module "mimir" {
     ID_RSA_PUB = "${var.ID_RSA_PUB}"
 }
 
-# module "pihole" {
-#   source = "./modules/pihole"
+module "tempo" {
+#   Tempo -> Tracing https://grafana.com/docs/tempo/latest/
+    source = "./modules/tempo"
 
-#   PM_PASSWORD = var.PM_PASSWORD
+    PM_PASSWORD = var.PM_PASSWORD
+    ID_RSA_PUB = "${var.ID_RSA_PUB}"
+}
+
+# module "pihole" {
+#     source = "./modules/pihole"
+
+#     PM_PASSWORD = var.PM_PASSWORD
 # }
 
 #   SNORT -> NIDPS  https://www.snort.org/
-#   Tempo -> Tracing https://grafana.com/docs/tempo/latest/
+
 # Guacamole -> Web RAT
 # Finalize student image and incorporate.
 # Add targets
-
