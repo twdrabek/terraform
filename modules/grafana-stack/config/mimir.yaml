@@ -10,7 +10,7 @@ common:
     s3:
       endpoint: minio:9000
       access_key_id: mimir
-      secret_access_key: {{ GRAFANA_PASSWORD}}
+      secret_access_key: {{ GF_SECURITY_ADMIN_PASSWORD }}
       insecure: true
       bucket_name: mimir
 
