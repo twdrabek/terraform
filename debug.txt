@@ -1,0 +1,715 @@
+module.grafana.ansible_playbook.grafana_configure_playbook: Refreshing state... [id=2024-05-04 18:29:10.119482164 -0500 CDT m=+45.305611515]
+module.prometheus.proxmox_lxc.prometheus: Refreshing state... [id=pve/lxc/113]
+module.grafana.proxmox_lxc.grafana: Refreshing state... [id=pve/lxc/112]
+module.loki.proxmox_lxc.loki: Refreshing state... [id=pve/lxc/111]
+module.prometheus.ansible_host.prometheus: Refreshing state... [id=10.10.0.12]
+module.prometheus.ansible_playbook.prometheus_config_playbook: Refreshing state... [id=2024-05-04 18:28:25.088248133 -0500 CDT m=+0.274377490]
+module.grafana.ansible_host.grafana: Refreshing state... [id=10.10.0.10]
+module.loki.ansible_host.loki: Refreshing state... [id=10.10.0.11]
+module.loki.ansible_playbook.loki_install_playbook: Refreshing state... [id=2024-05-04 18:28:25.07515653 -0500 CDT m=+0.261285874]
+module.loki.ansible_playbook.loki_config_playbook: Refreshing state... [id=2024-05-04 18:29:05.877274471 -0500 CDT m=+41.063403800]
+module.grafana.ansible_playbook.grafana_install_playbook: Refreshing state... [id=2024-05-04 18:28:25.083503269 -0500 CDT m=+0.269632616]
+module.prometheus.ansible_playbook.prometheus_install_playbook: Refreshing state... [id=2024-05-04 18:28:25.087821269 -0500 CDT m=+0.273950594]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+  ~ update in-place
+
+Terraform will perform the following actions:
+
+  # module.grafana.ansible_playbook.grafana_config_playbook will be created
+  + resource "ansible_playbook" "grafana_config_playbook" {
+      + ansible_playbook_binary = "ansible-playbook"
+      + ansible_playbook_stderr = (known after apply)
+      + ansible_playbook_stdout = (known after apply)
+      + args                    = (known after apply)
+      + check_mode              = false
+      + diff_mode               = false
+      + force_handlers          = false
+      + id                      = (known after apply)
+      + ignore_playbook_failure = false
+      + name                    = "10.10.0.10"
+      + playbook                = "./modules/grafana/files/grafana.config.playbook.yaml"
+      + replayable              = true
+      + temp_inventory_file     = (known after apply)
+      + verbosity               = 6
+    }
+
+  # module.grafana.ansible_playbook.grafana_install_playbook will be created
+  + resource "ansible_playbook" "grafana_install_playbook" {
+      + ansible_playbook_binary = "ansible-playbook"
+      + ansible_playbook_stderr = (known after apply)
+      + ansible_playbook_stdout = (known after apply)
+      + args                    = (known after apply)
+      + check_mode              = false
+      + diff_mode               = false
+      + force_handlers          = false
+      + id                      = (known after apply)
+      + ignore_playbook_failure = false
+      + name                    = "10.10.0.10"
+      + playbook                = "./modules/grafana/files/grafana.install.playbook.yaml"
+      + replayable              = true
+      + temp_inventory_file     = (known after apply)
+      + verbosity               = 6
+    }
+
+  # module.grafana.proxmox_lxc.grafana will be updated in-place
+  ~ resource "proxmox_lxc" "grafana" {
+        id                   = "pve/lxc/112"
+      ~ tags                 = "grafana;monitoring;security" -> "Security Monitoring Grafana"
+        # (27 unchanged attributes hidden)
+
+        # (2 unchanged blocks hidden)
+    }
+
+  # module.loki.ansible_playbook.loki_config_playbook will be created
+  + resource "ansible_playbook" "loki_config_playbook" {
+      + ansible_playbook_binary = "ansible-playbook"
+      + ansible_playbook_stderr = (known after apply)
+      + ansible_playbook_stdout = (known after apply)
+      + args                    = (known after apply)
+      + check_mode              = false
+      + diff_mode               = false
+      + force_handlers          = false
+      + id                      = (known after apply)
+      + ignore_playbook_failure = false
+      + name                    = "10.10.0.11"
+      + playbook                = "/home/h4ndl3/Projects/Terraform/modules/loki/files/loki.config.playbook.yaml"
+      + replayable              = true
+      + temp_inventory_file     = (known after apply)
+      + verbosity               = 0
+    }
+
+  # module.loki.ansible_playbook.loki_install_playbook will be created
+  + resource "ansible_playbook" "loki_install_playbook" {
+      + ansible_playbook_binary = "ansible-playbook"
+      + ansible_playbook_stderr = (known after apply)
+      + ansible_playbook_stdout = (known after apply)
+      + args                    = (known after apply)
+      + check_mode              = false
+      + diff_mode               = false
+      + force_handlers          = false
+      + id                      = (known after apply)
+      + ignore_playbook_failure = false
+      + name                    = "10.10.0.11"
+      + playbook                = "/home/h4ndl3/Projects/Terraform/modules/loki/files/loki.install.playbook.yaml"
+      + replayable              = true
+      + temp_inventory_file     = (known after apply)
+      + verbosity               = 0
+    }
+
+  # module.loki.proxmox_lxc.loki will be updated in-place
+  ~ resource "proxmox_lxc" "loki" {
+        id                   = "pve/lxc/111"
+      ~ tags                 = "loki;monitoring;security" -> "Security Monitoring Loki"
+        # (27 unchanged attributes hidden)
+
+        # (3 unchanged blocks hidden)
+    }
+
+  # module.prometheus.ansible_playbook.prometheus_config_playbook will be created
+  + resource "ansible_playbook" "prometheus_config_playbook" {
+      + ansible_playbook_binary = "ansible-playbook"
+      + ansible_playbook_stderr = (known after apply)
+      + ansible_playbook_stdout = (known after apply)
+      + args                    = (known after apply)
+      + check_mode              = false
+      + diff_mode               = false
+      + force_handlers          = false
+      + id                      = (known after apply)
+      + ignore_playbook_failure = false
+      + name                    = "10.10.0.12"
+      + playbook                = "/home/h4ndl3/Projects/Terraform/modules/prometheus/files/prometheus.config.playbook.yaml"
+      + replayable              = true
+      + temp_inventory_file     = (known after apply)
+      + verbosity               = 6
+    }
+
+  # module.prometheus.ansible_playbook.prometheus_install_playbook will be created
+  + resource "ansible_playbook" "prometheus_install_playbook" {
+      + ansible_playbook_binary = "ansible-playbook"
+      + ansible_playbook_stderr = (known after apply)
+      + ansible_playbook_stdout = (known after apply)
+      + args                    = (known after apply)
+      + check_mode              = false
+      + diff_mode               = false
+      + force_handlers          = false
+      + id                      = (known after apply)
+      + ignore_playbook_failure = false
+      + name                    = "10.10.0.12"
+      + playbook                = "/home/h4ndl3/Projects/Terraform/modules/prometheus/files/prometheus.install.playbook.yaml"
+      + replayable              = true
+      + temp_inventory_file     = (known after apply)
+      + verbosity               = 6
+    }
+
+  # module.prometheus.proxmox_lxc.prometheus will be updated in-place
+  ~ resource "proxmox_lxc" "prometheus" {
+        id                   = "pve/lxc/113"
+      ~ tags                 = "monitoring;prometheus;security" -> "Security Monitoring Prometheus"
+        # (27 unchanged attributes hidden)
+
+        # (2 unchanged blocks hidden)
+    }
+
+Plan: 6 to add, 3 to change, 0 to destroy.
+module.prometheus.proxmox_lxc.prometheus: Modifying... [id=pve/lxc/113]
+module.grafana.proxmox_lxc.grafana: Modifying... [id=pve/lxc/112]
+module.loki.proxmox_lxc.loki: Modifying... [id=pve/lxc/111]
+module.prometheus.proxmox_lxc.prometheus: Modifications complete after 0s [id=pve/lxc/113]
+module.grafana.proxmox_lxc.grafana: Modifications complete after 0s [id=pve/lxc/112]
+module.prometheus.ansible_playbook.prometheus_config_playbook: Creating...
+module.loki.proxmox_lxc.loki: Modifications complete after 0s [id=pve/lxc/111]
+module.prometheus.ansible_playbook.prometheus_install_playbook: Creating...
+module.loki.ansible_playbook.loki_install_playbook: Creating...
+module.grafana.ansible_playbook.grafana_install_playbook: Creating...
+module.prometheus.ansible_playbook.prometheus_config_playbook: Creation complete after 4s [id=2024-05-04 18:45:50.915278778 -0500 CDT m=+0.455642385]
+module.prometheus.ansible_playbook.prometheus_install_playbook: Still creating... [10s elapsed]
+module.loki.ansible_playbook.loki_install_playbook: Still creating... [10s elapsed]
+module.grafana.ansible_playbook.grafana_install_playbook: Still creating... [10s elapsed]
+module.prometheus.ansible_playbook.prometheus_install_playbook: Still creating... [20s elapsed]
+module.loki.ansible_playbook.loki_install_playbook: Still creating... [20s elapsed]
+module.grafana.ansible_playbook.grafana_install_playbook: Still creating... [20s elapsed]
+module.prometheus.ansible_playbook.prometheus_install_playbook: Still creating... [30s elapsed]
+module.loki.ansible_playbook.loki_install_playbook: Still creating... [30s elapsed]
+module.grafana.ansible_playbook.grafana_install_playbook: Still creating... [30s elapsed]
+module.prometheus.ansible_playbook.prometheus_install_playbook: Still creating... [40s elapsed]
+module.loki.ansible_playbook.loki_install_playbook: Still creating... [40s elapsed]
+module.grafana.ansible_playbook.grafana_install_playbook: Still creating... [40s elapsed]
+module.loki.ansible_playbook.loki_install_playbook: Creation complete after 41s [id=2024-05-04 18:45:50.969789851 -0500 CDT m=+0.510153470]
+module.loki.ansible_playbook.loki_config_playbook: Creating...
+module.grafana.ansible_playbook.grafana_install_playbook: Creation complete after 45s [id=2024-05-04 18:45:50.973887201 -0500 CDT m=+0.514250804]
+module.grafana.ansible_playbook.grafana_config_playbook: Creating...
+module.loki.ansible_playbook.loki_config_playbook: Creation complete after 9s [id=2024-05-04 18:46:32.133055859 -0500 CDT m=+41.673419460]
+module.prometheus.ansible_playbook.prometheus_install_playbook: Still creating... [50s elapsed]
+module.prometheus.ansible_playbook.prometheus_install_playbook: Still creating... [1m0s elapsed]
+module.prometheus.ansible_playbook.prometheus_install_playbook: Creation complete after 1m5s [id=2024-05-04 18:45:50.957007407 -0500 CDT m=+0.497371045]
+╷
+│ Error: ansible-playbook [core 2.16.5]
+│   config file = /home/h4ndl3/Projects/Terraform/ansible.cfg
+│   configured module search path = ['/home/h4ndl3/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+│   ansible python module location = /home/h4ndl3/.local/pipx/venvs/ansible/lib/python3.11/site-packages/ansible
+│   ansible collection location = /home/h4ndl3/.ansible/collections:/usr/share/ansible/collections
+│   executable location = /home/h4ndl3/.local/bin/ansible-playbook
+│   python version = 3.11.6 (main, Oct  8 2023, 05:06:43) [GCC 13.2.0] (/home/h4ndl3/.local/pipx/venvs/ansible/bin/python)
+│   jinja version = 3.1.3
+│   libyaml = True
+│ Using /home/h4ndl3/Projects/Terraform/ansible.cfg as config file
+│ setting up inventory plugins
+│ Loading collection ansible.builtin from 
+│ host_list declined parsing /tmp/.inventory-2413696628.ini as it did not pass its verify_file() method
+│ script declined parsing /tmp/.inventory-2413696628.ini as it did not pass its verify_file() method
+│ auto declined parsing /tmp/.inventory-2413696628.ini as it did not pass its verify_file() method
+│ yaml declined parsing /tmp/.inventory-2413696628.ini as it did not pass its verify_file() method
+│ Parsed /tmp/.inventory-2413696628.ini inventory source with ini plugin
+│ Loading collection grafana.grafana from /home/h4ndl3/.ansible/collections/ansible_collections/grafana/grafana
+│ Loading callback plugin default of type stdout, v2.0 from /home/h4ndl3/.local/pipx/venvs/ansible/lib/python3.11/site-packages/ansible/plugins/callback/default.py
+│ Attempting to use 'default' callback.
+│ Skipping callback 'default', as we already have a stdout callback.
+│ Attempting to use 'junit' callback.
+│ Attempting to use 'minimal' callback.
+│ Skipping callback 'minimal', as we already have a stdout callback.
+│ Attempting to use 'oneline' callback.
+│ Skipping callback 'oneline', as we already have a stdout callback.
+│ Attempting to use 'tree' callback.
+│ 
+│ PLAYBOOK: grafana.config.playbook.yaml *****************************************
+│ Positional arguments: ./modules/grafana/files/grafana.config.playbook.yaml
+│ verbosity: 6
+│ connection: ssh
+│ become_method: sudo
+│ tags: ('all',)
+│ inventory: ('/tmp/.inventory-2413696628.ini',)
+│ extra_vars: ('hostname=10.10.0.10',)
+│ forks: 5
+│ 1 plays in ./modules/grafana/files/grafana.config.playbook.yaml
+│ 
+│ PLAY [Configure Grafana] *******************************************************
+│ 
+│ TASK [Gathering Facts] *********************************************************
+│ task path: /home/h4ndl3/Projects/Terraform/modules/grafana/files/grafana.config.playbook.yaml:2
+│ <10.10.0.10> ESTABLISH SSH CONNECTION FOR USER: root
+│ <10.10.0.10> SSH: ansible.cfg set ssh_args: (-C)(-o)(ControlMaster=auto)(-o)(ControlPersist=60s)
+│ <10.10.0.10> SSH: ANSIBLE_HOST_KEY_CHECKING/host_key_checking disabled: (-o)(StrictHostKeyChecking=no)
+│ <10.10.0.10> SSH: ansible_password/ansible_ssh_password not set: (-o)(KbdInteractiveAuthentication=no)(-o)(PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey)(-o)(PasswordAuthentication=no)
+│ <10.10.0.10> SSH: ANSIBLE_REMOTE_USER/remote_user/ansible_user/user/-u set: (-o)(User="root")
+│ <10.10.0.10> SSH: ANSIBLE_TIMEOUT/timeout set: (-o)(ConnectTimeout=10)
+│ <10.10.0.10> SSH: Set ssh_common_args: ()
+│ <10.10.0.10> SSH: Set ssh_extra_args: ()
+│ <10.10.0.10> SSH: found only ControlPersist; added ControlPath: (-o)(ControlPath="/home/h4ndl3/.ansible/cp/5e26249744")
+│ <10.10.0.10> SSH: EXEC ssh -vvv -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=10 -o 'ControlPath="/home/h4ndl3/.ansible/cp/5e26249744"' 10.10.0.10 '/bin/sh -c '"'"'echo ~root && sleep 0'"'"''
+│ <10.10.0.10> (0, b'/root
+', b"OpenSSH_9.3p1 Ubuntu-1ubuntu3.2, OpenSSL 3.0.10 1 Aug 2023
+debug1: Reading configuration data /home/h4ndl3/.ssh/config
+debug1: Reading configuration data /etc/ssh/ssh_config
+debug1: /etc/ssh/ssh_config line 19: include /etc/ssh/ssh_config.d/*.conf matched no files
+debug1: /etc/ssh/ssh_config line 21: Applying options for *
+debug2: resolve_canonicalize: hostname 10.10.0.10 is address
+debug3: expanded UserKnownHostsFile '~/.ssh/known_hosts' -> '/home/h4ndl3/.ssh/known_hosts'
+debug3: expanded UserKnownHostsFile '~/.ssh/known_hosts2' -> '/home/h4ndl3/.ssh/known_hosts2'
+debug1: auto-mux: Trying existing master
+debug2: fd 3 setting O_NONBLOCK
+debug2: mux_client_hello_exchange: master version 4
+debug3: mux_client_forwards: request forwardings: 0 local, 0 remote
+debug3: mux_client_request_session: entering
+debug3: mux_client_request_alive: entering
+debug3: mux_client_request_alive: done pid = 521473
+debug3: mux_client_request_session: session request sent
+debug1: mux_client_request_session: master session id: 2
+debug3: mux_client_read_packet: read header failed: Broken pipe
+debug2: Received exit status from master 0
+")
+│ <10.10.0.10> ESTABLISH SSH CONNECTION FOR USER: root
+│ <10.10.0.10> SSH: ansible.cfg set ssh_args: (-C)(-o)(ControlMaster=auto)(-o)(ControlPersist=60s)
+│ <10.10.0.10> SSH: ANSIBLE_HOST_KEY_CHECKING/host_key_checking disabled: (-o)(StrictHostKeyChecking=no)
+│ <10.10.0.10> SSH: ansible_password/ansible_ssh_password not set: (-o)(KbdInteractiveAuthentication=no)(-o)(PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey)(-o)(PasswordAuthentication=no)
+│ <10.10.0.10> SSH: ANSIBLE_REMOTE_USER/remote_user/ansible_user/user/-u set: (-o)(User="root")
+│ <10.10.0.10> SSH: ANSIBLE_TIMEOUT/timeout set: (-o)(ConnectTimeout=10)
+│ <10.10.0.10> SSH: Set ssh_common_args: ()
+│ <10.10.0.10> SSH: Set ssh_extra_args: ()
+│ <10.10.0.10> SSH: found only ControlPersist; added ControlPath: (-o)(ControlPath="/home/h4ndl3/.ansible/cp/5e26249744")
+│ <10.10.0.10> SSH: EXEC ssh -vvv -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=10 -o 'ControlPath="/home/h4ndl3/.ansible/cp/5e26249744"' 10.10.0.10 '/bin/sh -c '"'"'( umask 77 && mkdir -p "` echo /root/.ansible/tmp `"&& mkdir "` echo /root/.ansible/tmp/ansible-tmp-1714866396.463261-522091-183847452896734 `" && echo ansible-tmp-1714866396.463261-522091-183847452896734="` echo /root/.ansible/tmp/ansible-tmp-1714866396.463261-522091-183847452896734 `" ) && sleep 0'"'"''
+│ <10.10.0.10> (0, b'ansible-tmp-1714866396.463261-522091-183847452896734=/root/.ansible/tmp/ansible-tmp-1714866396.463261-522091-183847452896734
+', b"OpenSSH_9.3p1 Ubuntu-1ubuntu3.2, OpenSSL 3.0.10 1 Aug 2023
+debug1: Reading configuration data /home/h4ndl3/.ssh/config
+debug1: Reading configuration data /etc/ssh/ssh_config
+debug1: /etc/ssh/ssh_config line 19: include /etc/ssh/ssh_config.d/*.conf matched no files
+debug1: /etc/ssh/ssh_config line 21: Applying options for *
+debug2: resolve_canonicalize: hostname 10.10.0.10 is address
+debug3: expanded UserKnownHostsFile '~/.ssh/known_hosts' -> '/home/h4ndl3/.ssh/known_hosts'
+debug3: expanded UserKnownHostsFile '~/.ssh/known_hosts2' -> '/home/h4ndl3/.ssh/known_hosts2'
+debug1: auto-mux: Trying existing master
+debug2: fd 3 setting O_NONBLOCK
+debug2: mux_client_hello_exchange: master version 4
+debug3: mux_client_forwards: request forwardings: 0 local, 0 remote
+debug3: mux_client_request_session: entering
+debug3: mux_client_request_alive: entering
+debug3: mux_client_request_alive: done pid = 521473
+debug3: mux_client_request_session: session request sent
+debug1: mux_client_request_session: master session id: 2
+debug3: mux_client_read_packet: read header failed: Broken pipe
+debug2: Received exit status from master 0
+")
+│ Including module_utils file ansible/__init__.py
+│ Including module_utils file ansible/module_utils/__init__.py
+│ Including module_utils file ansible/module_utils/basic.py
+│ Including module_utils file ansible/module_utils/_text.py
+│ Including module_utils file ansible/module_utils/common/_json_compat.py
+│ Including module_utils file ansible/module_utils/common/__init__.py
+│ Including module_utils file ansible/module_utils/common/_utils.py
+│ Including module_utils file ansible/module_utils/common/arg_spec.py
+│ Including module_utils file ansible/module_utils/common/file.py
+│ Including module_utils file ansible/module_utils/common/locale.py
+│ Including module_utils file ansible/module_utils/common/parameters.py
+│ Including module_utils file ansible/module_utils/common/collections.py
+│ Including module_utils file ansible/module_utils/common/process.py
+│ Including module_utils file ansible/module_utils/common/sys_info.py
+│ Including module_utils file ansible/module_utils/common/text/converters.py
+│ Including module_utils file ansible/module_utils/common/text/__init__.py
+│ Including module_utils file ansible/module_utils/common/text/formatters.py
+│ Including module_utils file ansible/module_utils/common/validation.py
+│ Including module_utils file ansible/module_utils/common/warnings.py
+│ Including module_utils file ansible/module_utils/compat/selectors.py
+│ Including module_utils file ansible/module_utils/compat/__init__.py
+│ Including module_utils file ansible/module_utils/compat/_selectors2.py
+│ Including module_utils file ansible/module_utils/compat/selinux.py
+│ Including module_utils file ansible/module_utils/distro/__init__.py
+│ Including module_utils file ansible/module_utils/distro/_distro.py
+│ Including module_utils file ansible/module_utils/errors.py
+│ Including module_utils file ansible/module_utils/facts/ansible_collector.py
+│ Including module_utils file ansible/module_utils/compat/typing.py
+│ Including module_utils file ansible/module_utils/facts/__init__.py
+│ Including module_utils file ansible/module_utils/facts/collector.py
+│ Including module_utils file ansible/module_utils/facts/compat.py
+│ Including module_utils file ansible/module_utils/facts/default_collectors.py
+│ Including module_utils file ansible/module_utils/facts/hardware/aix.py
+│ Including module_utils file ansible/module_utils/facts/hardware/__init__.py
+│ Including module_utils file ansible/module_utils/facts/hardware/base.py
+│ Including module_utils file ansible/module_utils/facts/hardware/darwin.py
+│ Including module_utils file ansible/module_utils/facts/hardware/dragonfly.py
+│ Including module_utils file ansible/module_utils/facts/hardware/freebsd.py
+│ Including module_utils file ansible/module_utils/facts/hardware/hpux.py
+│ Including module_utils file ansible/module_utils/facts/hardware/hurd.py
+│ Including module_utils file ansible/module_utils/facts/hardware/linux.py
+│ Including module_utils file ansible/module_utils/facts/hardware/netbsd.py
+│ Including module_utils file ansible/module_utils/facts/hardware/openbsd.py
+│ Including module_utils file ansible/module_utils/facts/hardware/sunos.py
+│ Including module_utils file ansible/module_utils/facts/namespace.py
+│ Including module_utils file ansible/module_utils/facts/network/aix.py
+│ Including module_utils file ansible/module_utils/facts/network/__init__.py
+│ Including module_utils file ansible/module_utils/facts/network/base.py
+│ Including module_utils file ansible/module_utils/facts/network/darwin.py
+│ Including module_utils file ansible/module_utils/facts/network/dragonfly.py
+│ Including module_utils file ansible/module_utils/facts/network/fc_wwn.py
+│ Including module_utils file ansible/module_utils/facts/network/freebsd.py
+│ Including module_utils file ansible/module_utils/facts/network/generic_bsd.py
+│ Including module_utils file ansible/module_utils/facts/network/hpux.py
+│ Including module_utils file ansible/module_utils/facts/network/hurd.py
+│ Including module_utils file ansible/module_utils/facts/network/iscsi.py
+│ Including module_utils file ansible/module_utils/facts/network/linux.py
+│ Including module_utils file ansible/module_utils/facts/network/netbsd.py
+│ Including module_utils file ansible/module_utils/facts/network/nvme.py
+│ Including module_utils file ansible/module_utils/facts/network/openbsd.py
+│ Including module_utils file ansible/module_utils/facts/network/sunos.py
+│ Including module_utils file ansible/module_utils/facts/other/facter.py
+│ Including module_utils file ansible/module_utils/facts/other/__init__.py
+│ Including module_utils file ansible/module_utils/facts/other/ohai.py
+│ Including module_utils file ansible/module_utils/facts/sysctl.py
+│ Including module_utils file ansible/module_utils/facts/system/apparmor.py
+│ Including module_utils file ansible/module_utils/facts/system/__init__.py
+│ Including module_utils file ansible/module_utils/facts/system/caps.py
+│ Including module_utils file ansible/module_utils/facts/system/chroot.py
+│ Including module_utils file ansible/module_utils/facts/system/cmdline.py
+│ Including module_utils file ansible/module_utils/facts/system/date_time.py
+│ Including module_utils file ansible/module_utils/compat/datetime.py
+│ Including module_utils file ansible/module_utils/facts/system/distribution.py
+│ Including module_utils file ansible/module_utils/facts/system/dns.py
+│ Including module_utils file ansible/module_utils/facts/system/env.py
+│ Including module_utils file ansible/module_utils/facts/system/fips.py
+│ Including module_utils file ansible/module_utils/facts/system/loadavg.py
+│ Including module_utils file ansible/module_utils/facts/system/local.py
+│ Including module_utils file ansible/module_utils/facts/system/lsb.py
+│ Including module_utils file ansible/module_utils/facts/system/pkg_mgr.py
+│ Including module_utils file ansible/module_utils/facts/system/platform.py
+│ Including module_utils file ansible/module_utils/facts/system/python.py
+│ Including module_utils file ansible/module_utils/facts/system/selinux.py
+│ Including module_utils file ansible/module_utils/facts/system/service_mgr.py
+│ Including module_utils file ansible/module_utils/compat/version.py
+│ Including module_utils file ansible/module_utils/facts/system/ssh_pub_keys.py
+│ Including module_utils file ansible/module_utils/facts/system/user.py
+│ Including module_utils file ansible/module_utils/facts/timeout.py
+│ Including module_utils file ansible/module_utils/facts/utils.py
+│ Including module_utils file ansible/module_utils/facts/virtual/base.py
+│ Including module_utils file ansible/module_utils/facts/virtual/__init__.py
+│ Including module_utils file ansible/module_utils/facts/virtual/dragonfly.py
+│ Including module_utils file ansible/module_utils/facts/virtual/freebsd.py
+│ Including module_utils file ansible/module_utils/facts/virtual/hpux.py
+│ Including module_utils file ansible/module_utils/facts/virtual/linux.py
+│ Including module_utils file ansible/module_utils/facts/virtual/netbsd.py
+│ Including module_utils file ansible/module_utils/facts/virtual/openbsd.py
+│ Including module_utils file ansible/module_utils/facts/virtual/sunos.py
+│ Including module_utils file ansible/module_utils/facts/virtual/sysctl.py
+│ Including module_utils file ansible/module_utils/parsing/convert_bool.py
+│ Including module_utils file ansible/module_utils/parsing/__init__.py
+│ Including module_utils file ansible/module_utils/pycompat24.py
+│ Including module_utils file ansible/module_utils/six/__init__.py
+│ <10.10.0.10> Attempting python interpreter discovery
+│ <10.10.0.10> ESTABLISH SSH CONNECTION FOR USER: root
+│ <10.10.0.10> SSH: ansible.cfg set ssh_args: (-C)(-o)(ControlMaster=auto)(-o)(ControlPersist=60s)
+│ <10.10.0.10> SSH: ANSIBLE_HOST_KEY_CHECKING/host_key_checking disabled: (-o)(StrictHostKeyChecking=no)
+│ <10.10.0.10> SSH: ansible_password/ansible_ssh_password not set: (-o)(KbdInteractiveAuthentication=no)(-o)(PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey)(-o)(PasswordAuthentication=no)
+│ <10.10.0.10> SSH: ANSIBLE_REMOTE_USER/remote_user/ansible_user/user/-u set: (-o)(User="root")
+│ <10.10.0.10> SSH: ANSIBLE_TIMEOUT/timeout set: (-o)(ConnectTimeout=10)
+│ <10.10.0.10> SSH: Set ssh_common_args: ()
+│ <10.10.0.10> SSH: Set ssh_extra_args: ()
+│ <10.10.0.10> SSH: found only ControlPersist; added ControlPath: (-o)(ControlPath="/home/h4ndl3/.ansible/cp/5e26249744")
+│ <10.10.0.10> SSH: EXEC ssh -vvv -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=10 -o 'ControlPath="/home/h4ndl3/.ansible/cp/5e26249744"' 10.10.0.10 '/bin/sh -c '"'"'echo PLATFORM; uname; echo FOUND; command -v '"'"'"'"'"'"'"'"'python3.12'"'"'"'"'"'"'"'"'; command -v '"'"'"'"'"'"'"'"'python3.11'"'"'"'"'"'"'"'"'; command -v '"'"'"'"'"'"'"'"'python3.10'"'"'"'"'"'"'"'"'; command -v '"'"'"'"'"'"'"'"'python3.9'"'"'"'"'"'"'"'"'; command -v '"'"'"'"'"'"'"'"'python3.8'"'"'"'"'"'"'"'"'; command -v '"'"'"'"'"'"'"'"'python3.7'"'"'"'"'"'"'"'"'; command -v '"'"'"'"'"'"'"'"'python3.6'"'"'"'"'"'"'"'"'; command -v '"'"'"'"'"'"'"'"'/usr/bin/python3'"'"'"'"'"'"'"'"'; command -v '"'"'"'"'"'"'"'"'/usr/libexec/platform-python'"'"'"'"'"'"'"'"'; command -v '"'"'"'"'"'"'"'"'python2.7'"'"'"'"'"'"'"'"'; command -v '"'"'"'"'"'"'"'"'/usr/bin/python'"'"'"'"'"'"'"'"'; command -v '"'"'"'"'"'"'"'"'python'"'"'"'"'"'"'"'"'; echo ENDFOUND && sleep 0'"'"''
+│ <10.10.0.10> (0, b'PLATFORM
+Linux
+FOUND
+/usr/bin/python3.11
+/usr/bin/python3
+ENDFOUND
+', b"OpenSSH_9.3p1 Ubuntu-1ubuntu3.2, OpenSSL 3.0.10 1 Aug 2023
+debug1: Reading configuration data /home/h4ndl3/.ssh/config
+debug1: Reading configuration data /etc/ssh/ssh_config
+debug1: /etc/ssh/ssh_config line 19: include /etc/ssh/ssh_config.d/*.conf matched no files
+debug1: /etc/ssh/ssh_config line 21: Applying options for *
+debug2: resolve_canonicalize: hostname 10.10.0.10 is address
+debug3: expanded UserKnownHostsFile '~/.ssh/known_hosts' -> '/home/h4ndl3/.ssh/known_hosts'
+debug3: expanded UserKnownHostsFile '~/.ssh/known_hosts2' -> '/home/h4ndl3/.ssh/known_hosts2'
+debug1: auto-mux: Trying existing master
+debug2: fd 3 setting O_NONBLOCK
+debug2: mux_client_hello_exchange: master version 4
+debug3: mux_client_forwards: request forwardings: 0 local, 0 remote
+debug3: mux_client_request_session: entering
+debug3: mux_client_request_alive: entering
+debug3: mux_client_request_alive: done pid = 521473
+debug3: mux_client_request_session: session request sent
+debug1: mux_client_request_session: master session id: 2
+debug3: mux_client_read_packet: read header failed: Broken pipe
+debug2: Received exit status from master 0
+")
+│ <10.10.0.10> ESTABLISH SSH CONNECTION FOR USER: root
+│ <10.10.0.10> SSH: ansible.cfg set ssh_args: (-C)(-o)(ControlMaster=auto)(-o)(ControlPersist=60s)
+│ <10.10.0.10> SSH: ANSIBLE_HOST_KEY_CHECKING/host_key_checking disabled: (-o)(StrictHostKeyChecking=no)
+│ <10.10.0.10> SSH: ansible_password/ansible_ssh_password not set: (-o)(KbdInteractiveAuthentication=no)(-o)(PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey)(-o)(PasswordAuthentication=no)
+│ <10.10.0.10> SSH: ANSIBLE_REMOTE_USER/remote_user/ansible_user/user/-u set: (-o)(User="root")
+│ <10.10.0.10> SSH: ANSIBLE_TIMEOUT/timeout set: (-o)(ConnectTimeout=10)
+│ <10.10.0.10> SSH: Set ssh_common_args: ()
+│ <10.10.0.10> SSH: Set ssh_extra_args: ()
+│ <10.10.0.10> SSH: found only ControlPersist; added ControlPath: (-o)(ControlPath="/home/h4ndl3/.ansible/cp/5e26249744")
+│ <10.10.0.10> SSH: EXEC ssh -vvv -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=10 -o 'ControlPath="/home/h4ndl3/.ansible/cp/5e26249744"' 10.10.0.10 '/bin/sh -c '"'"'/usr/bin/python3.11 && sleep 0'"'"''
+│ <10.10.0.10> (0, b'{"platform_dist_result": [], "osrelease_content": "PRETTY_NAME=\\"Ubuntu 23.10\\"\
+NAME=\\"Ubuntu\\"\
+VERSION_ID=\\"23.10\\"\
+VERSION=\\"23.10 (Mantic Minotaur)\\"\
+VERSION_CODENAME=mantic\
+ID=ubuntu\
+ID_LIKE=debian\
+HOME_URL=\\"https://www.ubuntu.com/\\"\
+SUPPORT_URL=\\"https://help.ubuntu.com/\\"\
+BUG_REPORT_URL=\\"https://bugs.launchpad.net/ubuntu/\\"\
+PRIVACY_POLICY_URL=\\"https://www.ubuntu.com/legal/terms-and-policies/privacy-policy\\"\
+UBUNTU_CODENAME=mantic\
+LOGO=ubuntu-logo\
+"}
+', b"OpenSSH_9.3p1 Ubuntu-1ubuntu3.2, OpenSSL 3.0.10 1 Aug 2023
+debug1: Reading configuration data /home/h4ndl3/.ssh/config
+debug1: Reading configuration data /etc/ssh/ssh_config
+debug1: /etc/ssh/ssh_config line 19: include /etc/ssh/ssh_config.d/*.conf matched no files
+debug1: /etc/ssh/ssh_config line 21: Applying options for *
+debug2: resolve_canonicalize: hostname 10.10.0.10 is address
+debug3: expanded UserKnownHostsFile '~/.ssh/known_hosts' -> '/home/h4ndl3/.ssh/known_hosts'
+debug3: expanded UserKnownHostsFile '~/.ssh/known_hosts2' -> '/home/h4ndl3/.ssh/known_hosts2'
+debug1: auto-mux: Trying existing master
+debug2: fd 3 setting O_NONBLOCK
+debug2: mux_client_hello_exchange: master version 4
+debug3: mux_client_forwards: request forwardings: 0 local, 0 remote
+debug3: mux_client_request_session: entering
+debug3: mux_client_request_alive: entering
+debug3: mux_client_request_alive: done pid = 521473
+debug3: mux_client_request_session: session request sent
+debug1: mux_client_request_session: master session id: 2
+debug3: mux_client_read_packet: read header failed: Broken pipe
+debug2: Received exit status from master 0
+")
+│ Using module file /home/h4ndl3/.local/pipx/venvs/ansible/lib/python3.11/site-packages/ansible/modules/setup.py
+│ <10.10.0.10> PUT /home/h4ndl3/.ansible/tmp/ansible-local-522044m8w2j0h5/tmpypd5np73 TO /root/.ansible/tmp/ansible-tmp-1714866396.463261-522091-183847452896734/AnsiballZ_setup.py
+│ <10.10.0.10> SSH: ansible.cfg set ssh_args: (-C)(-o)(ControlMaster=auto)(-o)(ControlPersist=60s)
+│ <10.10.0.10> SSH: ANSIBLE_HOST_KEY_CHECKING/host_key_checking disabled: (-o)(StrictHostKeyChecking=no)
+│ <10.10.0.10> SSH: ansible_password/ansible_ssh_password not set: (-o)(KbdInteractiveAuthentication=no)(-o)(PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey)(-o)(PasswordAuthentication=no)
+│ <10.10.0.10> SSH: ANSIBLE_REMOTE_USER/remote_user/ansible_user/user/-u set: (-o)(User="root")
+│ <10.10.0.10> SSH: ANSIBLE_TIMEOUT/timeout set: (-o)(ConnectTimeout=10)
+│ <10.10.0.10> SSH: Set ssh_common_args: ()
+│ <10.10.0.10> SSH: Set sftp_extra_args: ()
+│ <10.10.0.10> SSH: found only ControlPersist; added ControlPath: (-o)(ControlPath="/home/h4ndl3/.ansible/cp/5e26249744")
+│ <10.10.0.10> SSH: EXEC sftp -b - -vvv -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=10 -o 'ControlPath="/home/h4ndl3/.ansible/cp/5e26249744"' '[10.10.0.10]'
+│ <10.10.0.10> (0, b'sftp> put /home/h4ndl3/.ansible/tmp/ansible-local-522044m8w2j0h5/tmpypd5np73 /root/.ansible/tmp/ansible-tmp-1714866396.463261-522091-183847452896734/AnsiballZ_setup.py
+', b'OpenSSH_9.3p1 Ubuntu-1ubuntu3.2, OpenSSL 3.0.10 1 Aug 2023
+debug1: Reading configuration data /home/h4ndl3/.ssh/config
+debug1: Reading configuration data /etc/ssh/ssh_config
+debug1: /etc/ssh/ssh_config line 19: include /etc/ssh/ssh_config.d/*.conf matched no files
+debug1: /etc/ssh/ssh_config line 21: Applying options for *
+debug2: resolve_canonicalize: hostname 10.10.0.10 is address
+debug3: expanded UserKnownHostsFile \'~/.ssh/known_hosts\' -> \'/home/h4ndl3/.ssh/known_hosts\'
+debug3: expanded UserKnownHostsFile \'~/.ssh/known_hosts2\' -> \'/home/h4ndl3/.ssh/known_hosts2\'
+debug1: auto-mux: Trying existing master
+debug2: fd 3 setting O_NONBLOCK
+debug2: mux_client_hello_exchange: master version 4
+debug3: mux_client_forwards: request forwardings: 0 local, 0 remote
+debug3: mux_client_request_session: entering
+debug3: mux_client_request_alive: entering
+debug3: mux_client_request_alive: done pid = 521473
+debug3: mux_client_request_session: session request sent
+debug1: mux_client_request_session: master session id: 2
+debug2: Remote version: 3
+debug2: Server supports extension "posix-rename@openssh.com" revision 1
+debug2: Server supports extension "statvfs@openssh.com" revision 2
+debug2: Server supports extension "fstatvfs@openssh.com" revision 2
+debug2: Server supports extension "hardlink@openssh.com" revision 1
+debug2: Server supports extension "fsync@openssh.com" revision 1
+debug2: Server supports extension "lsetstat@openssh.com" revision 1
+debug2: Server supports extension "limits@openssh.com" revision 1
+debug2: Server supports extension "expand-path@openssh.com" revision 1
+debug2: Server supports extension "copy-data" revision 1
+debug2: Unrecognised server extension "home-directory"
+debug2: Server supports extension "users-groups-by-id@openssh.com" revision 1
+debug3: Sent message limits@openssh.com I:1
+debug3: Received limits reply T:201 I:1
+debug3: server upload/download buffer sizes 261120 / 261120; using 261120 / 261120
+debug3: server handle limit 1019; using 64
+debug2: Sending SSH2_FXP_REALPATH "."
+debug3: Sent message fd 3 T:16 I:2
+debug3: SSH2_FXP_REALPATH . -> /root
+debug3: Looking up /home/h4ndl3/.ansible/tmp/ansible-local-522044m8w2j0h5/tmpypd5np73
+debug2: Sending SSH2_FXP_STAT "/root/.ansible/tmp/ansible-tmp-1714866396.463261-522091-183847452896734/AnsiballZ_setup.py"
+debug3: Sent message fd 3 T:17 I:3
+debug1: stat remote: No such file or directory
+debug2: do_upload: upload local "/home/h4ndl3/.ansible/tmp/ansible-local-522044m8w2j0h5/tmpypd5np73" to remote "/root/.ansible/tmp/ansible-tmp-1714866396.463261-522091-183847452896734/AnsiballZ_setup.py"
+debug2: Sending SSH2_FXP_OPEN "/root/.ansible/tmp/ansible-tmp-1714866396.463261-522091-183847452896734/AnsiballZ_setup.py"
+debug3: Sent dest message SSH2_FXP_OPEN I:4 P:/root/.ansible/tmp/ansible-tmp-1714866396.463261-522091-183847452896734/AnsiballZ_setup.py M:0x001a
+debug3: Sent message SSH2_FXP_WRITE I:6 O:0 S:261120
+debug3: SSH2_FXP_STATUS 0
+debug3: In write loop, ack for 6 261120 bytes at 0
+debug3: Sent message SSH2_FXP_WRITE I:7 O:261120 S:35160
+debug3: SSH2_FXP_STATUS 0
+debug3: In write loop, ack for 7 35160 bytes at 261120
+debug3: Sent message SSH2_FXP_CLOSE I:5
+debug3: SSH2_FXP_STATUS 0
+debug3: mux_client_read_packet: read header failed: Broken pipe
+debug2: Received exit status from master 0
+')
+│ <10.10.0.10> ESTABLISH SSH CONNECTION FOR USER: root
+│ <10.10.0.10> SSH: ansible.cfg set ssh_args: (-C)(-o)(ControlMaster=auto)(-o)(ControlPersist=60s)
+│ <10.10.0.10> SSH: ANSIBLE_HOST_KEY_CHECKING/host_key_checking disabled: (-o)(StrictHostKeyChecking=no)
+│ <10.10.0.10> SSH: ansible_password/ansible_ssh_password not set: (-o)(KbdInteractiveAuthentication=no)(-o)(PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey)(-o)(PasswordAuthentication=no)
+│ <10.10.0.10> SSH: ANSIBLE_REMOTE_USER/remote_user/ansible_user/user/-u set: (-o)(User="root")
+│ <10.10.0.10> SSH: ANSIBLE_TIMEOUT/timeout set: (-o)(ConnectTimeout=10)
+│ <10.10.0.10> SSH: Set ssh_common_args: ()
+│ <10.10.0.10> SSH: Set ssh_extra_args: ()
+│ <10.10.0.10> SSH: found only ControlPersist; added ControlPath: (-o)(ControlPath="/home/h4ndl3/.ansible/cp/5e26249744")
+│ <10.10.0.10> SSH: EXEC ssh -vvv -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=10 -o 'ControlPath="/home/h4ndl3/.ansible/cp/5e26249744"' 10.10.0.10 '/bin/sh -c '"'"'chmod u+x /root/.ansible/tmp/ansible-tmp-1714866396.463261-522091-183847452896734/ /root/.ansible/tmp/ansible-tmp-1714866396.463261-522091-183847452896734/AnsiballZ_setup.py && sleep 0'"'"''
+│ <10.10.0.10> (0, b'', b"OpenSSH_9.3p1 Ubuntu-1ubuntu3.2, OpenSSL 3.0.10 1 Aug 2023
+debug1: Reading configuration data /home/h4ndl3/.ssh/config
+debug1: Reading configuration data /etc/ssh/ssh_config
+debug1: /etc/ssh/ssh_config line 19: include /etc/ssh/ssh_config.d/*.conf matched no files
+debug1: /etc/ssh/ssh_config line 21: Applying options for *
+debug2: resolve_canonicalize: hostname 10.10.0.10 is address
+debug3: expanded UserKnownHostsFile '~/.ssh/known_hosts' -> '/home/h4ndl3/.ssh/known_hosts'
+debug3: expanded UserKnownHostsFile '~/.ssh/known_hosts2' -> '/home/h4ndl3/.ssh/known_hosts2'
+debug1: auto-mux: Trying existing master
+debug2: fd 3 setting O_NONBLOCK
+debug2: mux_client_hello_exchange: master version 4
+debug3: mux_client_forwards: request forwardings: 0 local, 0 remote
+debug3: mux_client_request_session: entering
+debug3: mux_client_request_alive: entering
+debug3: mux_client_request_alive: done pid = 521473
+debug3: mux_client_request_session: session request sent
+debug1: mux_client_request_session: master session id: 2
+debug3: mux_client_read_packet: read header failed: Broken pipe
+debug2: Received exit status from master 0
+")
+│ <10.10.0.10> ESTABLISH SSH CONNECTION FOR USER: root
+│ <10.10.0.10> SSH: ansible.cfg set ssh_args: (-C)(-o)(ControlMaster=auto)(-o)(ControlPersist=60s)
+│ <10.10.0.10> SSH: ANSIBLE_HOST_KEY_CHECKING/host_key_checking disabled: (-o)(StrictHostKeyChecking=no)
+│ <10.10.0.10> SSH: ansible_password/ansible_ssh_password not set: (-o)(KbdInteractiveAuthentication=no)(-o)(PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey)(-o)(PasswordAuthentication=no)
+│ <10.10.0.10> SSH: ANSIBLE_REMOTE_USER/remote_user/ansible_user/user/-u set: (-o)(User="root")
+│ <10.10.0.10> SSH: ANSIBLE_TIMEOUT/timeout set: (-o)(ConnectTimeout=10)
+│ <10.10.0.10> SSH: Set ssh_common_args: ()
+│ <10.10.0.10> SSH: Set ssh_extra_args: ()
+│ <10.10.0.10> SSH: found only ControlPersist; added ControlPath: (-o)(ControlPath="/home/h4ndl3/.ansible/cp/5e26249744")
+│ <10.10.0.10> SSH: EXEC ssh -vvv -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=10 -o 'ControlPath="/home/h4ndl3/.ansible/cp/5e26249744"' -tt 10.10.0.10 '/bin/sh -c '"'"'/usr/bin/python3 /root/.ansible/tmp/ansible-tmp-1714866396.463261-522091-183847452896734/AnsiballZ_setup.py && sleep 0'"'"''
+│ <10.10.0.10> (0, b'
+{"ansible_facts": {"ansible_user_id": "root", "ansible_user_uid": 0, "ansible_user_gid": 0, "ansible_user_gecos": "root", "ansible_user_dir": "/root", "ansible_user_shell": "/bin/bash", "ansible_real_user_id": 0, "ansible_effective_user_id": 0, "ansible_real_group_id": 0, "ansible_effective_group_id": 0, "ansible_is_chroot": false, "ansible_system": "Linux", "ansible_kernel": "6.5.13-1-pve", "ansible_kernel_version": "#1 SMP PREEMPT_DYNAMIC PMX 6.5.13-1 (2024-02-05T13:50Z)", "ansible_machine": "x86_64", "ansible_python_version": "3.11.6", "ansible_fqdn": "grafana..", "ansible_hostname": "grafana", "ansible_nodename": "grafana", "ansible_domain": ".", "ansible_userspace_bits": "64", "ansible_architecture": "x86_64", "ansible_userspace_architecture": "x86_64", "ansible_machine_id": "8585c62c8a2b4d57ba499b86512f05f4", "ansible_env": {"USER": "root", "SSH_CLIENT": "10.10.0.210 58678 22", "XDG_SESSION_TYPE": "tty", "SHLVL": "0", "HOME": "/root", "SSH_TTY": "/dev/pts/4", "DBUS_SESSION_BUS_ADDRESS": "unix:path=/run/user/0/bus", "LOGNAME": "root", "_": "/bin/sh", "XDG_SESSION_CLASS": "user", "TERM": "xterm-256color", "XDG_SESSION_ID": "6140", "PATH": "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin", "XDG_RUNTIME_DIR": "/run/user/0", "LANG": "C", "SHELL": "/bin/bash", "PWD": "/root", "SSH_CONNECTION": "10.10.0.210 58678 10.10.0.10 22", "LC_CTYPE": "C.UTF-8"}, "ansible_date_time": {"year": "2024", "month": "05", "weekday": "Saturday", "weekday_number": "6", "weeknumber": "18", "day": "04", "hour": "23", "minute": "46", "second": "37", "epoch": "1714866397", "epoch_int": "1714866397", "date": "2024-05-04", "time": "23:46:37", "iso8601_micro": "2024-05-04T23:46:37.349606Z", "iso8601": "2024-05-04T23:46:37Z", "iso8601_basic": "20240504T234637349606", "iso8601_basic_short": "20240504T234637", "tz": "UTC", "tz_dst": "UTC", "tz_offset": "+0000"}, "ansible_distribution": "Ubuntu", "ansible_distribution_release": "mantic", "ansible_distribution_version": "23.10", "ansible_distribution_major_version": "23", "ansible_distribution_file_path": "/etc/os-release", "ansible_distribution_file_variety": "Debian", "ansible_distribution_file_parsed": true, "ansible_os_family": "Debian", "ansible_ssh_host_key_dsa_public": "AAAAB3NzaC1kc3MAAACBAMfoe4LU2iRgzWZn28Hd/bgMsgPJZ/V/GYisSoqjWYjgu3mDulk2lUC+W3noKnN3tIoZyT0cYsi3PXAf1VpRTCRVUYOFZxuMZgIkJdzsMcZjZEn1E11HztU0ZIBWd5Isf/zXG04hEHZUXR5NKlQ1GTWz/qalE2INmBz/p/Chl+evAAAAFQCo7eY7Q5Z4UncxSLqV1ZXL0dHOTQAAAIEAigZFNwMeERAVQYPEfms+HMojcON3QHPAPAsmVKb3k/i6f70AOz1dp20dZFn3AI51pvIH112ho3a/8PGS6FiBHtLQhkYfEi8qVQ5MfCxuAPp3gHdAG51odLN0bsngHJBmVCPYnz/MV80w0pgqVQVqzaND5Q7Qs2zUvb440c4LLGIAAACALsRIzYdptW970Av5VcQxmMG2lVitWhibEIRAPNYARLkwh5RthpWtGX4IkqcHMWj2sB2SiidpxCHARWy2miHYNvT78u3ui1Ts1osHWU5cBMpMcdqAjPbqYZOjTMEKFdYRhjKIW75CANMue5LejkwVqhs5+7RzWaGxC0sisC8D7to=", "ansible_ssh_host_key_dsa_public_keytype": "ssh-dss", "ansible_ssh_host_key_rsa_public": "AAAAB3NzaC1yc2EAAAADAQABAAABgQDttq8AhVCvy+4nd36YpH3Amuzoik5uwtPRxqZQgQu63UVn6rvICK562y6+ZbpNxxb1DUj16V33K0MGCn6brb+vhg9zrzxBPqJFMMhJTV6dXaS6szWz5Si+Dy9/yoPavkwL7HbY351rD8O4t+ghJfE9qMwzDWEb5VHrfLohL8PhYl0/0f5F4rqp7eFcsdXwBD7PJ21rI/Ju7BgON1MtqA0MIAPBXhQmBfy55AQmzBOATZ/Mz8v5JBoTxcQ3sg0jSQZ+NUFRJIglbUe4pR2JhTuSvpNPMSbdc4lJVm5TaApIn3tlpleunhplsoU99fL2RREtGo4PmsV2Rr1/4x8g3FlrJ8vUEG8Li4v+9af1nkjPjuU3ZOkUDvmXwhz2ueaSvI5N/4IKsD3By6bNcnFlXgL08YFBaLsr9rt6BLHAxN08psnpvUl3V6TOc31Dw4wMZ99IEKUs9fs7Ctyap4TJnNOCPq8TmdQu0mc2zFjt0SCxz2wgRiQ00vEBjzl3PSpw2DE=", "ansible_ssh_host_key_rsa_public_keytype": "ssh-rsa", "ansible_ssh_host_key_ecdsa_public": "AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBKamMStUsKHOuBnDZlCvnhKCur2JiohTQ6aFShublYHfzL7jz+YeH29dpp9IEWiNu1bUBcFdIX5GOaCfvFAtMq4=", "ansible_ssh_host_key_ecdsa_public_keytype": "ecdsa-sha2-nistp256", "ansible_ssh_host_key_ed25519_public": "AAAAC3NzaC1lZDI1NTE5AAAAIF384ytZ7092Qoue/UNGmoj2wCt2REOQFTlZnFYTtE9g", "ansible_ssh_host_key_ed25519_public_keytype": "ssh-ed25519", "ansible_local": {}, "ansible_virtualization_type": "lxc", "ansible_virtualization_role": "guest", "ansible_virtualization_tech_guest": ["lxc", "container"], "ansible_virtualization_tech_host": ["kvm"], "ansible_python": {"version": {"major": 3, "minor": 11, "micro": 6, "releaselevel": "final", "serial": 0}, "version_info": [3, 11, 6, "final", 0], "executable": "/usr/bin/python3", "has_sslcontext": true, "type": "cpython"}, "ansible_hostnqn": "", "ansible_cmdline": {"BOOT_IMAGE": "/boot/vmlinuz-6.5.13-1-pve", "root": "/dev/mapper/pve-root", "ro": true, "quiet": true, "intel_iommu": "on", "iommu": "pt", "intremap": "no_x2apic_optout", "vfio-pci.ids": "1002:699f,1002:aae0"}, "ansible_proc_cmdline": {"BOOT_IMAGE": "/boot/vmlinuz-6.5.13-1-pve", "root": "/dev/mapper/pve-root", "ro": true, "quiet": true, "intel_iommu": "on", "iommu": "pt", "intremap": "no_x2apic_optout", "vfio-pci.ids": "1002:699f,1002:aae0"}, "ansible_lsb": {"id": "Ubuntu", "description": "Ubuntu 23.10", "release": "23.10", "codename": "mantic", "major_release": "23"}, "ansible_interfaces": ["lo", "eth0"], "ansible_eth0": {"device": "eth0", "macaddress": "bc:24:11:1d:a3:23", "mtu": 1500, "active": true, "type": "ether", "speed": 10000, "promisc": false, "ipv4": {"address": "10.10.0.10", "broadcast": "10.10.0.255", "netmask": "255.255.255.0", "network": "10.10.0.0", "prefix": "24"}, "ipv6": [{"address": "fe80::be24:11ff:fe1d:a323", "prefix": "64", "scope": "link"}]}, "ansible_lo": {"device": "lo", "mtu": 65536, "active": true, "type": "loopback", "promisc": false, "ipv4": {"address": "127.0.0.1", "broadcast": "", "netmask": "255.0.0.0", "network": "127.0.0.0", "prefix": "8"}, "ipv6": [{"address": "::1", "prefix": "128", "scope": "host"}]}, "ansible_default_ipv4": {"gateway": "10.10.0.1", "interface": "eth0", "address": "10.10.0.10", "broadcast": "10.10.0.255", "netmask": "255.255.255.0", "network": "10.10.0.0", "prefix": "24", "macaddress": "bc:24:11:1d:a3:23", "mtu": 1500, "type": "ether", "alias": "eth0"}, "ansible_default_ipv6": {}, "ansible_all_ipv4_addresses": ["10.10.0.10"], "ansible_all_ipv6_addresses": ["fe80::be24:11ff:fe1d:a323"], "ansible_locally_reachable_ips": {"ipv4": ["10.10.0.10", "127.0.0.0/8", "127.0.0.1"], "ipv6": ["::1", "fe80::be24:11ff:fe1d:a323"]}, "ansible_iscsi_iqn": "", "ansible_selinux_python_present": true, "ansible_selinux": {"status": "disabled"}, "ansible_apparmor": {"status": "enabled"}, "ansible_fibre_channel_wwn": [], "ansible_system_capabilities_enforced": "False", "ansible_system_capabilities": [], "ansible_processor": ["0", "GenuineIntel", "Intel(R) Xeon(R) CPU E5-2670 0 @ 2.60GHz", "1", "GenuineIntel", "Intel(R) Xeon(R) CPU E5-2670 0 @ 2.60GHz", "2", "GenuineIntel", "Intel(R) Xeon(R) CPU E5-2670 0 @ 2.60GHz", "3", "GenuineIntel", "Intel(R) Xeon(R) CPU E5-2670 0 @ 2.60GHz", "4", "GenuineIntel", "Intel(R) Xeon(R) CPU E5-2670 0 @ 2.60GHz", "5", "GenuineIntel", "Intel(R) Xeon(R) CPU E5-2670 0 @ 2.60GHz", "6", "GenuineIntel", "Intel(R) Xeon(R) CPU E5-2670 0 @ 2.60GHz", "7", "GenuineIntel", "Intel(R) Xeon(R) CPU E5-2670 0 @ 2.60GHz", "8", "GenuineIntel", "Intel(R) Xeon(R) CPU E5-2670 0 @ 2.60GHz", "9", "GenuineIntel", "Intel(R) Xeon(R) CPU E5-2670 0 @ 2.60GHz", "10", "GenuineIntel", "Intel(R) Xeon(R) CPU E5-2670 0 @ 2.60GHz", "11", "GenuineIntel", "Intel(R) Xeon(R) CPU E5-2670 0 @ 2.60GHz", "12", "GenuineIntel", "Intel(R) Xeon(R) CPU E5-2670 0 @ 2.60GHz", "13", "GenuineIntel", "Intel(R) Xeon(R) CPU E5-2670 0 @ 2.60GHz", "14", "GenuineIntel", "Intel(R) Xeon(R) CPU E5-2670 0 @ 2.60GHz", "15", "GenuineIntel", "Intel(R) Xeon(R) CPU E5-2670 0 @ 2.60GHz", "16", "GenuineIntel", "Intel(R) Xeon(R) CPU E5-2670 0 @ 2.60GHz", "17", "GenuineIntel", "Intel(R) Xeon(R) CPU E5-2670 0 @ 2.60GHz", "18", "GenuineIntel", "Intel(R) Xeon(R) CPU E5-2670 0 @ 2.60GHz", "19", "GenuineIntel", "Intel(R) Xeon(R) CPU E5-2670 0 @ 2.60GHz", "20", "GenuineIntel", "Intel(R) Xeon(R) CPU E5-2670 0 @ 2.60GHz", "21", "GenuineIntel", "Intel(R) Xeon(R) CPU E5-2670 0 @ 2.60GHz", "22", "GenuineIntel", "Intel(R) Xeon(R) CPU E5-2670 0 @ 2.60GHz", "23", "GenuineIntel", "Intel(R) Xeon(R) CPU E5-2670 0 @ 2.60GHz", "24", "GenuineIntel", "Intel(R) Xeon(R) CPU E5-2670 0 @ 2.60GHz", "25", "GenuineIntel", "Intel(R) Xeon(R) CPU E5-2670 0 @ 2.60GHz", "26", "GenuineIntel", "Intel(R) Xeon(R) CPU E5-2670 0 @ 2.60GHz", "27", "GenuineIntel", "Intel(R) Xeon(R) CPU E5-2670 0 @ 2.60GHz", "28", "GenuineIntel", "Intel(R) Xeon(R) CPU E5-2670 0 @ 2.60GHz", "29", "GenuineIntel", "Intel(R) Xeon(R) CPU E5-2670 0 @ 2.60GHz", "30", "GenuineIntel", "Intel(R) Xeon(R) CPU E5-2670 0 @ 2.60GHz", "31", "GenuineIntel", "Intel(R) Xeon(R) CPU E5-2670 0 @ 2.60GHz"], "ansible_processor_count": 2, "ansible_processor_cores": 8, "ansible_processor_threads_per_core": 2, "ansible_processor_vcpus": 32, "ansible_processor_nproc": 32, "ansible_memtotal_mb": 16384, "ansible_memfree_mb": 13181, "ansible_swaptotal_mb": 0, "ansible_swapfree_mb": 0, "ansible_memory_mb": {"real": {"total": 16384, "used": 3203, "free": 13181}, "nocache": {"free": 16094, "used": 290}, "swap": {"total": 0, "free": 0, "used": 0, "cached": 0}}, "ansible_bios_date": "12/06/2019", "ansible_bios_vendor": "Dell Inc.", "ansible_bios_version": "2.9.0", "ansible_board_asset_tag": "NA", "ansible_board_name": "0VWT90", "ansible_board_serial": "NA", "ansible_board_vendor": "Dell Inc.", "ansible_board_version": "A10", "ansible_chassis_asset_tag": "NA", "ansible_chassis_serial": "NA", "ansible_chassis_vendor": "Dell Inc.", "ansible_chassis_version": "NA", "ansible_form_factor": "Rack Mount Chassis", "ansible_product_name": "PowerEdge R720", "ansible_product_serial": "NA", "ansible_product_uuid": "NA", "ansible_product_version": "NA", "ansible_system_vendor": "Dell Inc.", "ansible_devices": {"loop1": {"virtual": 1, "links": {"ids": [], "uuids": [], "labels": [], "masters": []}, "vendor": null, "model": null, "sas_address": null, "sas_device_handle": null, "removable": "0", "support_discard": "4096", "partitions": {}, "rotational": "1", "scheduler_mode": "none", "sectors": "16777216", "sectorsize": "512", "size": "8.00 GB", "host": "", "holders": []}, "dm-1": {"virtual": 1, "links": {"ids": [], "uuids": [], "labels": [], "masters": []}, "vendor": null, "model": null, "sas_address": null, "sas_device_handle": null, "removable": "0", "support_discard": "0", "partitions": {}, "rotational": "1", "scheduler_mode": "", "sectors": "176414720", "sectorsize": "512", "size": "84.12 GB", "host": "", "holders": []}, "sdb": {"virtual": 1, "links": {"ids": [], "uuids": [], "labels": [], "masters": []}, "vendor": "DELL", "model": "PERC H710", "sas_address": null, "sas_device_handle": null, "removable": "0", "support_discard": "0", "partitions": {"sdb1": {"links": {"ids": [], "uuids": [], "labels": [], "masters": []}, "start": "2048", "sectors": "1998057473", "sectorsize": 512, "size": "952.75 GB", "uuid": null, "holders": []}}, "rotational": "1", "scheduler_mode": "mq-deadline", "sectors": "1998061568", "sectorsize": "512", "size": "952.75 GB", "host": "RAID bus controller: Broadcom / LSI MegaRAID SAS 2208 [Thunderbolt] (rev 05)", "holders": []}, "loop6": {"virtual": 1, "links": {"ids": [], "uuids": [], "labels": [], "masters": []}, "vendor": null, "model": null, "sas_address": null, "sas_device_handle": null, "removable": "0", "support_discard": "0", "partitions": {}, "rotational": "1", "scheduler_mode": "none", "sectors": "0", "sectorsize": "512", "size": "0.00 Bytes", "host": "", "holders": []}, "loop4": {"virtual": 1, "links": {"ids": [], "uuids": [], "labels": [], "masters": []}, "vendor": null, "model": null, "sas_address": null, "sas_device_handle": null, "removable": "0", "support_discard": "4096", "partitions": {}, "rotational": "1", "scheduler_mode": "none", "sectors": "10737418240", "sectorsize": "512", "size": "5.00 TB", "host": "", "holders": []}, "dm-4": {"virtual": 1, "links": {"ids": [], "uuids": [], "labels": [], "masters": ["dm-5"]}, "vendor": null, "model": null, "sas_address": null, "sas_device_handle": null, "removable": "0", "support_discard": "0", "partitions": {}, "rotational": "1", "scheduler_mode": "", "sectors": "387145728", "sectorsize": "512", "size": "184.61 GB", "host": "", "holders": ["pve-data"]}, "loop2": {"virtual": 1, "links": {"ids": [], "uuids": [], "labels": [], "masters": []}, "vendor": null, "model": null, "sas_address": null, "sas_device_handle": null, "removable": "0", "support_discard": "4096", "partitions": {}, "rotational": "1", "scheduler_mode": "none", "sectors": "16777216", "sectorsize": "512", "size": "8.00 GB", "host": "", "holders": []}, "dm-2": {"virtual": 1, "links": {"ids": [], "uuids": [], "labels": [], "masters": ["dm-4"]}, "vendor": null, "model": null, "sas_address": null, "sas_device_handle": null, "removable": "0", "support_discard": "0", "partitions": {}, "rotational": "1", "scheduler_mode": "", "sectors": "3948544", "sectorsize": "512", "size": "1.88 GB", "host": "", "holders": ["pve-data-tpool"]}, "loop0": {"virtual": 1, "links": {"ids": [], "uuids": [], "labels": [], "masters": []}, "vendor": null, "model": null, "sas_address": null, "sas_device_handle": null, "removable": "0", "support_discard": "4096", "partitions": {}, "rotational": "1", "scheduler_mode": "none", "sectors": "8388608", "sectorsize": "512", "size": "4.00 GB", "host": "", "holders": []}, "dm-0": {"virtual": 1, "links": {"ids": [], "uuids": [], "labels": [], "masters": []}, "vendor": null, "model": null, "sas_address": null, "sas_device_handle": null, "removable": "0", "support_discard": "0", "partitions": {}, "rotational": "1", "scheduler_mode": "", "sectors": "16777216", "sectorsize": "512", "size": "8.00 GB", "host": "", "holders": []}, "sdc": {"virtual": 1, "links": {"ids": [], "uuids": [], "labels": [], "masters": []}, "vendor": "DELL", "model": "PERC H710", "sas_address": null, "sas_device_handle": null, "removable": "0", "support_discard": "0", "partitions": {"sdc1": {"links": {"ids": [], "uuids": [], "labels": [], "masters": []}, "start": "2048", "sectors": "31253852161", "sectorsize": 512, "size": "14.55 TB", "uuid": null, "holders": []}}, "rotational": "1", "scheduler_mode": "mq-deadline", "sectors": "31253856256", "sectorsize": "512", "size": "14.55 TB", "host": "RAID bus controller: Broadcom / LSI MegaRAID SAS 2208 [Thunderbolt] (rev 05)", "holders": []}, "loop7": {"virtual": 1, "links": {"ids": [], "uuids": [], "labels": [], "masters": []}, "vendor": null, "model": null, "sas_address": null, "sas_device_handle": null, "removable": "0", "support_discard": "0", "partitions": {}, "rotational": "1", "scheduler_mode": "none", "sectors": "0", "sectorsize": "512", "size": "0.00 Bytes", "host": "", "holders": []}, "sda": {"virtual": 1, "links": {"ids": [], "uuids": [], "labels": [], "masters": []}, "vendor": "DELL", "model": "PERC H710", "sas_address": null, "sas_device_handle": null, "removable": "0", "support_discard": "0", "partitions": {"sda2": {"links": {"ids": [], "uuids": [], "labels": [], "masters": []}, "start": "2048", "sectors": "2097152", "sectorsize": 512, "size": "1.00 GB", "uuid": null, "holders": []}, "sda3": {"links": {"ids": [], "uuids": [], "labels": [], "masters": ["dm-0", "dm-1", "dm-2", "dm-3"]}, "start": "2099200", "sectors": "621803487", "sectorsize": 512, "size": "296.50 GB", "uuid": null, "holders": ["pve-root", "pve-data_tmeta", "pve-swap", "pve-data_tdata"]}, "sda1": {"links": {"ids": [], "uuids": [], "labels": [], "masters": []}, "start": "34", "sectors": "2014", "sectorsize": 512, "size": "1007.00 KB", "uuid": null, "holders": []}}, "rotational": "1", "scheduler_mode": "mq-deadline", "sectors": "623902720", "sectorsize": "512", "size": "297.50 GB", "host": "RAID bus controller: Broadcom / LSI MegaRAID SAS 2208 [Thunderbolt] (rev 05)", "holders": []}, "loop5": {"virtual": 1, "links": {"ids": [], "uuids": [], "labels": [], "masters": []}, "vendor": null, "model": null, "sas_address": null, "sas_device_handle": null, "removable": "0", "support_discard": "4096", "partitions": {}, "rotational": "1", "scheduler_mode": "none", "sectors": "0", "sectorsize": "512", "size": "0.00 Bytes", "host": "", "holders": []}, "dm-5": {"virtual": 1, "links": {"ids": [], "uuids": [], "labels": [], "masters": []}, "vendor": null, "model": null, "sas_address": null, "sas_device_handle": null, "removable": "0", "support_discard": "0", "partitions": {}, "rotational": "1", "scheduler_mode": "", "sectors": "387145728", "sectorsize": "512", "size": "184.61 GB", "host": "", "holders": []}, "loop3": {"virtual": 1, "links": {"ids": [], "uuids": [], "labels": [], "masters": []}, "vendor": null, "model": null, "sas_address": null, "sas_device_handle": null, "removable": "0", "support_discard": "4096", "partitions": {}, "rotational": "1", "scheduler_mode": "none", "sectors": "16777216", "sectorsize": "512", "size": "8.00 GB", "host": "", "holders": []}, "dm-3": {"virtual": 1, "links": {"ids": [], "uuids": [], "labels": [], "masters": ["dm-4"]}, "vendor": null, "model": null, "sas_address": null, "sas_device_handle": null, "removable": "0", "support_discard": "0", "partitions": {}, "rotational": "1", "scheduler_mode": "", "sectors": "387145728", "sectorsize": "512", "size": "184.61 GB", "host": "", "holders": ["pve-data-tpool"]}}, "ansible_device_links": {"ids": {}, "uuids": {}, "labels": {}, "masters": {"sda3": ["dm-0", "dm-1", "dm-2", "dm-3"], "dm-2": ["dm-4"], "dm-3": ["dm-4"], "dm-4": ["dm-5"]}}, "ansible_uptime_seconds": 2326726, "ansible_lvm": "N/A", "ansible_mounts": [{"mount": "/", "device": "/dev/loop3", "fstype": "ext4", "options": "rw,relatime", "size_total": 8350298112, "size_available": 6438494208, "block_size": 4096, "block_total": 2038647, "block_available": 1571898, "block_used": 466749, "inode_total": 524288, "inode_available": 488108, "inode_used": 36180, "uuid": "N/A"}], "ansible_dns": {"search": ["."], "nameservers": ["10.10.0.5"]}, "ansible_fips": false, "ansible_pkg_mgr": "apt", "ansible_loadavg": {"1m": 10.57080078125, "5m": 8.81787109375, "15m": 8.685546875}, "ansible_service_mgr": "systemd", "gather_subset": ["all"], "module_setup": true}, "invocation": {"module_args": {"gather_subset": ["all"], "gather_timeout": 10, "filter": [], "fact_path": "/etc/ansible/facts.d"}}}
+', b"OpenSSH_9.3p1 Ubuntu-1ubuntu3.2, OpenSSL 3.0.10 1 Aug 2023
+debug1: Reading configuration data /home/h4ndl3/.ssh/config
+debug1: Reading configuration data /etc/ssh/ssh_config
+debug1: /etc/ssh/ssh_config line 19: include /etc/ssh/ssh_config.d/*.conf matched no files
+debug1: /etc/ssh/ssh_config line 21: Applying options for *
+debug2: resolve_canonicalize: hostname 10.10.0.10 is address
+debug3: expanded UserKnownHostsFile '~/.ssh/known_hosts' -> '/home/h4ndl3/.ssh/known_hosts'
+debug3: expanded UserKnownHostsFile '~/.ssh/known_hosts2' -> '/home/h4ndl3/.ssh/known_hosts2'
+debug1: auto-mux: Trying existing master
+debug2: fd 3 setting O_NONBLOCK
+debug2: mux_client_hello_exchange: master version 4
+debug3: mux_client_forwards: request forwardings: 0 local, 0 remote
+debug3: mux_client_request_session: entering
+debug3: mux_client_request_alive: entering
+debug3: mux_client_request_alive: done pid = 521473
+debug3: mux_client_request_session: session request sent
+debug1: mux_client_request_session: master session id: 2
+debug3: mux_client_read_packet: read header failed: Broken pipe
+debug2: Received exit status from master 0
+Shared connection to 10.10.0.10 closed.
+")
+│ <10.10.0.10> ESTABLISH SSH CONNECTION FOR USER: root
+│ <10.10.0.10> SSH: ansible.cfg set ssh_args: (-C)(-o)(ControlMaster=auto)(-o)(ControlPersist=60s)
+│ <10.10.0.10> SSH: ANSIBLE_HOST_KEY_CHECKING/host_key_checking disabled: (-o)(StrictHostKeyChecking=no)
+│ <10.10.0.10> SSH: ansible_password/ansible_ssh_password not set: (-o)(KbdInteractiveAuthentication=no)(-o)(PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey)(-o)(PasswordAuthentication=no)
+│ <10.10.0.10> SSH: ANSIBLE_REMOTE_USER/remote_user/ansible_user/user/-u set: (-o)(User="root")
+│ <10.10.0.10> SSH: ANSIBLE_TIMEOUT/timeout set: (-o)(ConnectTimeout=10)
+│ <10.10.0.10> SSH: Set ssh_common_args: ()
+│ <10.10.0.10> SSH: Set ssh_extra_args: ()
+│ <10.10.0.10> SSH: found only ControlPersist; added ControlPath: (-o)(ControlPath="/home/h4ndl3/.ansible/cp/5e26249744")
+│ <10.10.0.10> SSH: EXEC ssh -vvv -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="root"' -o ConnectTimeout=10 -o 'ControlPath="/home/h4ndl3/.ansible/cp/5e26249744"' 10.10.0.10 '/bin/sh -c '"'"'rm -f -r /root/.ansible/tmp/ansible-tmp-1714866396.463261-522091-183847452896734/ > /dev/null 2>&1 && sleep 0'"'"''
+│ <10.10.0.10> (0, b'', b"OpenSSH_9.3p1 Ubuntu-1ubuntu3.2, OpenSSL 3.0.10 1 Aug 2023
+debug1: Reading configuration data /home/h4ndl3/.ssh/config
+debug1: Reading configuration data /etc/ssh/ssh_config
+debug1: /etc/ssh/ssh_config line 19: include /etc/ssh/ssh_config.d/*.conf matched no files
+debug1: /etc/ssh/ssh_config line 21: Applying options for *
+debug2: resolve_canonicalize: hostname 10.10.0.10 is address
+debug3: expanded UserKnownHostsFile '~/.ssh/known_hosts' -> '/home/h4ndl3/.ssh/known_hosts'
+debug3: expanded UserKnownHostsFile '~/.ssh/known_hosts2' -> '/home/h4ndl3/.ssh/known_hosts2'
+debug1: auto-mux: Trying existing master
+debug2: fd 3 setting O_NONBLOCK
+debug2: mux_client_hello_exchange: master version 4
+debug3: mux_client_forwards: request forwardings: 0 local, 0 remote
+debug3: mux_client_request_session: entering
+debug3: mux_client_request_alive: entering
+debug3: mux_client_request_alive: done pid = 521473
+debug3: mux_client_request_session: session request sent
+debug1: mux_client_request_session: master session id: 2
+debug3: mux_client_read_packet: read header failed: Broken pipe
+debug2: Received exit status from master 0
+")
+│ ok: [10.10.0.10]
+│ 
+│ TASK [grafana.grafana.grafana : Gather variables for each operating system] ****
+│ task path: /home/h4ndl3/.ansible/collections/ansible_collections/grafana/grafana/roles/grafana/tasks/main.yml:2
+│ looking for "vars/distro/ubuntu-23.10.yml" at "/home/h4ndl3/.ansible/collections/ansible_collections/grafana/grafana/roles/grafana/files/vars/distro/ubuntu-23.10.yml"
+│ looking for "vars/distro/ubuntu-23.10.yml" at "/home/h4ndl3/.ansible/collections/ansible_collections/grafana/grafana/roles/grafana/vars/distro/ubuntu-23.10.yml"
+│ looking for "vars/distro/ubuntu-23.10.yml" at "/home/h4ndl3/.ansible/collections/ansible_collections/grafana/grafana/roles/grafana/tasks/files/vars/distro/ubuntu-23.10.yml"
+│ looking for "vars/distro/ubuntu-23.10.yml" at "/home/h4ndl3/.ansible/collections/ansible_collections/grafana/grafana/roles/grafana/tasks/vars/distro/ubuntu-23.10.yml"
+│ looking for "vars/distro/ubuntu-23.10.yml" at "/home/h4ndl3/Projects/Terraform/modules/grafana/files/files/vars/distro/ubuntu-23.10.yml"
+│ looking for "vars/distro/ubuntu-23.10.yml" at "/home/h4ndl3/Projects/Terraform/modules/grafana/files/vars/distro/ubuntu-23.10.yml"
+│ looking for "vars/distro/ubuntu-23.10.yml" at "/home/h4ndl3/Projects/Terraform/modules/grafana/files/files/vars/distro/ubuntu-23.10.yml"
+│ looking for "vars/distro/ubuntu-23.10.yml" at "/home/h4ndl3/Projects/Terraform/modules/grafana/files/vars/distro/ubuntu-23.10.yml"
+│ looking for "vars/distro/ubuntu-23.yml" at "/home/h4ndl3/.ansible/collections/ansible_collections/grafana/grafana/roles/grafana/files/vars/distro/ubuntu-23.yml"
+│ looking for "vars/distro/ubuntu-23.yml" at "/home/h4ndl3/.ansible/collections/ansible_collections/grafana/grafana/roles/grafana/vars/distro/ubuntu-23.yml"
+│ looking for "vars/distro/ubuntu-23.yml" at "/home/h4ndl3/.ansible/collections/ansible_collections/grafana/grafana/roles/grafana/tasks/files/vars/distro/ubuntu-23.yml"
+│ looking for "vars/distro/ubuntu-23.yml" at "/home/h4ndl3/.ansible/collections/ansible_collections/grafana/grafana/roles/grafana/tasks/vars/distro/ubuntu-23.yml"
+│ looking for "vars/distro/ubuntu-23.yml" at "/home/h4ndl3/Projects/Terraform/modules/grafana/files/files/vars/distro/ubuntu-23.yml"
+│ looking for "vars/distro/ubuntu-23.yml" at "/home/h4ndl3/Projects/Terraform/modules/grafana/files/vars/distro/ubuntu-23.yml"
+│ looking for "vars/distro/ubuntu-23.yml" at "/home/h4ndl3/Projects/Terraform/modules/grafana/files/files/vars/distro/ubuntu-23.yml"
+│ looking for "vars/distro/ubuntu-23.yml" at "/home/h4ndl3/Projects/Terraform/modules/grafana/files/vars/distro/ubuntu-23.yml"
+│ looking for "vars/distro/debian-23.yml" at "/home/h4ndl3/.ansible/collections/ansible_collections/grafana/grafana/roles/grafana/files/vars/distro/debian-23.yml"
+│ looking for "vars/distro/debian-23.yml" at "/home/h4ndl3/.ansible/collections/ansible_collections/grafana/grafana/roles/grafana/vars/distro/debian-23.yml"
+│ looking for "vars/distro/debian-23.yml" at "/home/h4ndl3/.ansible/collections/ansible_collections/grafana/grafana/roles/grafana/tasks/files/vars/distro/debian-23.yml"
+│ looking for "vars/distro/debian-23.yml" at "/home/h4ndl3/.ansible/collections/ansible_collections/grafana/grafana/roles/grafana/tasks/vars/distro/debian-23.yml"
+│ looking for "vars/distro/debian-23.yml" at "/home/h4ndl3/Projects/Terraform/modules/grafana/files/files/vars/distro/debian-23.yml"
+│ looking for "vars/distro/debian-23.yml" at "/home/h4ndl3/Projects/Terraform/modules/grafana/files/vars/distro/debian-23.yml"
+│ looking for "vars/distro/debian-23.yml" at "/home/h4ndl3/Projects/Terraform/modules/grafana/files/files/vars/distro/debian-23.yml"
+│ looking for "vars/distro/debian-23.yml" at "/home/h4ndl3/Projects/Terraform/modules/grafana/files/vars/distro/debian-23.yml"
+│ looking for "vars/distro/ubuntu.yml" at "/home/h4ndl3/.ansible/collections/ansible_collections/grafana/grafana/roles/grafana/files/vars/distro/ubuntu.yml"
+│ looking for "vars/distro/ubuntu.yml" at "/home/h4ndl3/.ansible/collections/ansible_collections/grafana/grafana/roles/grafana/vars/distro/ubuntu.yml"
+│ looking for "vars/distro/ubuntu.yml" at "/home/h4ndl3/.ansible/collections/ansible_collections/grafana/grafana/roles/grafana/tasks/files/vars/distro/ubuntu.yml"
+│ looking for "vars/distro/ubuntu.yml" at "/home/h4ndl3/.ansible/collections/ansible_collections/grafana/grafana/roles/grafana/tasks/vars/distro/ubuntu.yml"
+│ looking for "vars/distro/ubuntu.yml" at "/home/h4ndl3/Projects/Terraform/modules/grafana/files/files/vars/distro/ubuntu.yml"
+│ looking for "vars/distro/ubuntu.yml" at "/home/h4ndl3/Projects/Terraform/modules/grafana/files/vars/distro/ubuntu.yml"
+│ looking for "vars/distro/ubuntu.yml" at "/home/h4ndl3/Projects/Terraform/modules/grafana/files/files/vars/distro/ubuntu.yml"
+│ looking for "vars/distro/ubuntu.yml" at "/home/h4ndl3/Projects/Terraform/modules/grafana/files/vars/distro/ubuntu.yml"
+│ looking for "vars/distro/debian.yml" at "/home/h4ndl3/.ansible/collections/ansible_collections/grafana/grafana/roles/grafana/files/vars/distro/debian.yml"
+│ looking for "vars/distro/debian.yml" at "/home/h4ndl3/.ansible/collections/ansible_collections/grafana/grafana/roles/grafana/vars/distro/debian.yml"
+│ ok: [10.10.0.10] => {
+│     "ansible_facts": {
+│         "_grafana_dependencies": [
+│             "apt-transport-https",
+│             "adduser",
+│             "ca-certificates",
+│             "libfontconfig",
+│             "gnupg2"
+│         ],
+│         "grafana_package": "grafana{% if ansible_architecture == 'armv6l' %}-rpi{% endif %}{{ (grafana_version != 'latest') | ternary('=' ~ grafana_version, '') }}"
+│     },
+│     "ansible_included_var_files": [
+│         "/home/h4ndl3/.ansible/collections/ansible_collections/grafana/grafana/roles/grafana/vars/distro/debian.yml"
+│     ],
+│     "changed": false
+│ }
+│ 
+│ TASK [grafana.grafana.grafana : Preflight] *************************************
+│ task path: /home/h4ndl3/.ansible/collections/ansible_collections/grafana/grafana/roles/grafana/tasks/main.yml:23
+│ included: /home/h4ndl3/.ansible/collections/ansible_collections/grafana/grafana/roles/grafana/tasks/preflight.yml for 10.10.0.10
+│ 
+│ TASK [grafana.grafana.grafana : Check variable types] **************************
+│ task path: /home/h4ndl3/.ansible/collections/ansible_collections/grafana/grafana/roles/grafana/tasks/preflight.yml:2
+│ fatal: [10.10.0.10]: FAILED! => {
+│     "assertion": "grafana_security is mapping",
+│     "changed": false,
+│     "evaluated_to": false,
+│     "msg": "Assertion failed"
+│ }
+│ 
+│ PLAY RECAP *********************************************************************
+│ 10.10.0.10                 : ok=3    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+│ 
+│ 
+│ 
+│   with module.grafana.ansible_playbook.grafana_config_playbook,
+│   on modules/grafana/grafana.tf line 81, in resource "ansible_playbook" "grafana_config_playbook":
+│   81: resource "ansible_playbook" "grafana_config_playbook" {
+│ 
+│ ansible-playbook
+╵

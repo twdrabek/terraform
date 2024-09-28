@@ -1,0 +1,5 @@
+---
+- name: Configure Prometheus
+  hosts: all
+  remote_user: root
+  gather_facts: yes
