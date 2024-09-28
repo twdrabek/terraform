@@ -43,7 +43,6 @@ resource "proxmox_lxc" "grafana" {
   onboot       = true
   start        = true
 
-  // Terraform will crash without rootfs defined
   rootfs {
     storage = "Mass"
     size    = "8G"
@@ -82,7 +81,7 @@ resource "ansible_host" "grafana" {
 }
 
 resource "ansible_playbook" "grafana_config_playbook" {
-  playbook   = "./modules/grafana/files/grafana.config.playbook.yaml"
+  playbook   = "/home/h4ndl3/Projects/Terraform/modules/grafana/files/grafana.config.playbook.yaml"    #grafana.config.playbook.yaml
   name       = ansible_host.grafana.name
   replayable = true
 

@@ -9,7 +9,7 @@ STARTUP =
 VM_STATE = 
 ONCREATE = 
 TABLET = 
-BOOT = 
+BOOT = order=scsi0;ide2;net0
 BOOTDISK = 
 AGENT = 
 ISO = 
