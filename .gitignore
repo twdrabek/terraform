@@ -35,3 +35,7 @@ terraform.rc
 
 # Ignore the lock file
 .terraform.lock.hcl
+
+# Exclude libraries
+./lib
+./bin
