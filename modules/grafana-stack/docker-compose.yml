@@ -2,25 +2,56 @@ version: '3.9'
 
 services:
 
+#########################################################
+# Grafana
+#########################################################
+
+  grafana:
+    image: grafana/grafana-enterprise:latest-ubuntu
+    container_name: grafana
+    user:
+      "root:root"
+    volumes:
+      - ./grafana/data:/var/lib/grafana:rw
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards:rw
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources:rw
+    environment:
+      - GF_SECURITY_ADMIN_USER=${ADMIN_USER}
+      - GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - GF_USERS_ALLOW_SIGN_UP=${ALLOW_SIGN_UP}
+      - GF_INSTALL_IMAGE_RENDERER_PLUGIN=true
+      - GF_INSTALL_PLUGINS=grafana-clock-panel
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    labels:
+      org.label-schema.group: "monitoring"
+    networks:
+      - monitor-net
+
+#########################################################
+# Prometheus
+#########################################################
+
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
     volumes:
-      - ./prometheus:/etc/prometheus
-      - ./prometheus_data:/prometheus
-      - ./config/prometheus.yaml:/etc/prometheus/prometheus.yml
-      - ../../../../../operations/mimir-mixin-compiled/rules.yaml:/etc/prometheus/rules.yaml
+      - .\prometheus\prometheus.yml:\etc\prometheus\prometheus.yml:rw
+      - ./prometheus_data:/prometheus:rw
+    user:
+      "root:root"
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--web.console.libraries=/etc/prometheus/console_libraries"
+      - "--web.console.templates=/etc/prometheus/consoles"
+      - "--storage.tsdb.retention.time=200h"
+      - "--web.enable-lifecycle"
     depends_on:
       - "mimir-1"
       - "mimir-2"
       - "mimir-3"
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
-      - '--web.console.libraries=/etc/prometheus/console_libraries'
-      - '--web.console.templates=/etc/prometheus/consoles'
-      - '--storage.tsdb.retention.time=200h'
-      - '--web.enable-lifecycle'
     restart: unless-stopped
     ports:
       - 9090:9000
@@ -29,41 +60,168 @@ services:
     networks:
       - monitor-net
 
+########################################################
+# Mimir
+#########################################################
+
+  mimir-1:
+    image: grafana/mimir:latest
+    container_name: mimir-1
+    command: 
+      - "-config.file=/etc/mimir.yaml"
+      - "-config.expand-env=true"
+    hostname: mimir-1
+    depends_on:
+      - minio
+    volumes:
+      - .\config\mimir.yaml:\etc\mimir.yaml:ro
+      - .\config\alertmanager-fallback-config.yaml:\etc\alertmanager-fallback-config.yaml:ro
+      - mimir-1-data:/data
+    labels:
+      org.label-schema.group: "monitoring"
+    networks:
+      - monitor-net
+
+  mimir-2:
+    image: grafana/mimir:latest
+    container_name: mimir-2
+    command: 
+      - "-config.file=/etc/mimir.yaml"
+      - "-config.expand-env=true"
+    hostname: mimir-2
+    depends_on:
+      - minio
+    volumes:
+      - .\config\mimir.yaml:\etc\mimir.yaml:ro
+      - .\config\alertmanager-fallback-config.yaml:\etc\alertmanager-fallback-config.yaml:ro
+      - mimir-2-data:/data
+    labels:
+      org.label-schema.group: "monitoring"
+    networks:
+      - monitor-net
+
+  mimir-3:
+    image: grafana/mimir:latest
+    container_name: mimir-3
+    command: 
+      - "-config.file=/etc/mimir.yaml"
+      - "-config.expand-env=true"
+    hostname: mimir-3
+    depends_on:
+      - minio
+    volumes:
+      - .\config\mimir.yaml:\etc\mimir.yaml:ro
+      - .\config\alertmanager-fallback-config.yaml:\etc\alertmanager-fallback-config.yaml:ro
+      - mimir-3-data:/data
+    labels:
+      org.label-schema.group: "monitoring"
+    networks:
+      - monitor-net
+
+#########################################################
+# Loki
+#########################################################
+
+  read:
+    user: "1000"
+    image: grafana/loki:latest
+    container_name: read
+    ports:
+      - 3101:3100
+      - 7946
+      - 9095
+    volumes:
+      - ./loki/loki-config.yaml:/etc/loki/config.yaml:rw
+    command: 
+      - "-config.file=/etc/loki/config.yaml"
+      - "-config.expand-env=true"
+      - "-target=read"
+    depends_on:
+      - minio
+    healthcheck:
+      test: [ "CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3100/ready || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    labels:
+      org.label-schema.group: "monitoring"
+    networks: &monitor-net-dns
+      monitor-net:
+        aliases:
+          - monitor-net
+
+  write:
+    container_name: write
+    user: "1000"
+    image: grafana/loki:latest
+    ports:
+      - 3102:3100
+      - 7946
+      - 9095
+    volumes:
+      - ./loki/loki-config.yaml:/etc/loki/config.yaml:rw
+    command: 
+      - "-config.file=/etc/loki/config.yaml"
+      - "-config.expand-env=true"
+      - "-target=write"
+    healthcheck:
+      test: [ "CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3100/ready || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      - minio
+    labels:
+      org.label-schema.group: "monitoring"
+    networks:
+      <<: *monitor-net-dns
+
+  backend:
+    user: "1000"
+    image: grafana/loki:latest
+    container_name: backend
+    volumes:
+      - ./loki/loki-config.yaml:/etc/loki/config.yaml:rw
+    ports:
+      - "3100"
+      - "7946"
+    command: 
+      - "-config.file=/etc/loki/config.yaml"
+      - "-config.expand-env=true"
+      - "-legacy-read-mode=false"
+      - "-target=backend"
+    depends_on:
+      - gateway
+    labels:
+      org.label-schema.group: "monitoring"
+    networks:
+      - monitor-net
+
+#########################################################
+# Databases
+#########################################################
+
   influxdb:
     image: influxdb:latest
     container_name: influxdb
     restart: always
     environment:
       - INFLUXDB_DB=influx
-      - INFLUXDB_ADMIN_USER=${INFLUX_ADMIN_USER:-admin}
-      - INFLUXDB_ADMIN_PASSWORD=${INFLUX_ADMIN_PASSWORD:-admin}
+      - INFLUXDB_ADMIN_USER=${INFLUX_ADMIN_USER}
+      - INFLUXDB_ADMIN_PASSWORD=${INFLUX_ADMIN_PASSWORD}
     ports:
       - '8086:8086'
     volumes:
       - ./influxdb/data:/var/lib/influxdb
-      - ./influxdb/influxdb.conf:/etc/influxdb/influxdb.conf
+      - ./influxdb:/etc/influxdb
     labels:
       org.label-schema.group: "monitoring"
     networks:
       - monitor-net
 
-
-  alertmanager:
-    image: prom/alertmanager:latest
-    container_name: alertmanager
-    volumes:
-      - ./prometheus/config:/etc/prometheus
-      - ./prometheus/data:/prometheus
-    command:
-      - '--config.file=/etc/alertmanager/config.yml'
-      - '--storage.path=/alertmanager'
-    restart: unless-stopped
-    ports:
-      - 9093:9093
-    labels:
-      org.label-schema.group: "monitoring"
-    networks:
-      - monitor-net
+#########################################################
+# Collectors
+#########################################################
 
   nodeexporter:
     image: prom/node-exporter:latest
@@ -73,10 +231,10 @@ services:
       - /sys:/host/sys:ro
       - /:/rootfs:ro
     command:
-      - '--path.procfs=/host/proc'
-      - '--path.rootfs=/rootfs'
-      - '--path.sysfs=/host/sys'
-      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+      - "--path.procfs=/host/proc"
+      - "--path.rootfs=/rootfs"
+      - "--path.sysfs=/host/sys"
+      - "--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)"
     restart: unless-stopped
     ports:
       - 9100:9100
@@ -85,7 +243,6 @@ services:
     networks:
       - monitor-net
 
-      
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:latest
     container_name: cadvisor
@@ -100,31 +257,151 @@ services:
       - /cgroup:/cgroup:ro #doesn't work on MacOS only for Linux
     restart: unless-stopped
     ports:
-      - 8888:8080
+      - 8081:8080
     labels:
       org.label-schema.group: "monitoring"
     networks:
       - monitor-net
-      
-  grafana:
-    image: grafana/grafana:latest
-    container_name: grafana
+
+  alloy:
+    image: grafana/alloy:latest
+    container_name: alloy
     volumes:
-      - ./grafana/data:/var/lib/grafana
-      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
-      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
-    environment:
-      - GF_SECURITY_ADMIN_USER=${ADMIN_USER:-admin}
-      - GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
-      - GF_USERS_ALLOW_SIGN_UP=false
-    restart: unless-stopped
+      - .\alloy\alloy-local-config.yaml:\etc\alloy\config.alloy:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    user:
+      "root:root"
+    command:  "run --server.http.listen-addr=0.0.0.0:12345 --storage.path=/var/lib/alloy/data /etc/alloy/config.alloy"
     ports:
-      - 3000:3000
+      - 12345:12345
+    depends_on:
+      - gateway
     labels:
       org.label-schema.group: "monitoring"
     networks:
       - monitor-net
-      
+
+#########################################################
+# Storage
+#########################################################
+
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    entrypoint:
+      - sh
+      - -euc
+      - |
+        mkdir -p /data/loki-data && \
+        mkdir -p /data/loki-ruler && \
+        minio server /data
+    environment:
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
+      - MINIO_PROMETHEUS_AUTH_TYPE=${MINIO_PROMETHEUS_AUTH_TYPE}
+      - MINIO_UPDATE=off
+    ports:
+      - 9000
+    volumes:
+      - ./.data/minio:/data
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9000/minio/health/live" ]
+      interval: 15s
+      timeout: 20s
+      retries: 5
+    labels:
+      org.label-schema.group: "monitoring"
+    networks:
+      - monitor-net
+
+#########################################################
+# Proxies and Gateways
+#########################################################
+
+  load-balancer:
+    image: nginx:latest
+    container_name: load-balancer
+    volumes:
+      - .\loadbalancer\nginx.conf:\etc\nginx\nginx.conf:ro
+    depends_on:
+      - "mimir-1"
+      - "mimir-2"
+      - "mimir-3"
+    ports:
+      - 9009:9009
+
+  gateway:
+    image: nginx:latest
+    container_name: gateway
+    depends_on:
+      - read
+      - write
+    entrypoint:
+      - sh
+      - -euc
+      - |
+        cat <<EOF > /etc/nginx/nginx.conf
+        user  nginx;
+        worker_processes  5;  ## Default: 1
+
+        events {
+          worker_connections   1000;
+        }
+
+        http {
+          resolver 127.0.0.11;
+
+          server {
+            listen             3100;
+
+            location = / {
+              return 200 'OK';
+              auth_basic off;
+            }
+
+            location = /api/prom/push {
+              proxy_pass       http://write:3100\$$request_uri;
+            }
+
+            location = /api/prom/tail {
+              proxy_pass       http://read:3100\$$request_uri;
+              proxy_set_header Upgrade \$$http_upgrade;
+              proxy_set_header Connection "upgrade";
+            }
+
+            location ~ /api/prom/.* {
+              proxy_pass       http://read:3100\$$request_uri;
+            }
+
+            location = /loki/api/v1/push {
+              proxy_pass       http://write:3100\$$request_uri;
+            }
+
+            location = /loki/api/v1/tail {
+              proxy_pass       http://read:3100\$$request_uri;
+              proxy_set_header Upgrade \$$http_upgrade;
+              proxy_set_header Connection "upgrade";
+            }
+
+            location ~ /loki/api/.* {
+              proxy_pass       http://read:3100\$$request_uri;
+            }
+          }
+        }
+        EOF
+        /docker-entrypoint.sh nginx -g "daemon off;"
+    ports:
+      - 3100:3100
+    healthcheck:
+      test: ["CMD", "service", "nginx", "status"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    labels:
+      org.label-schema.group: "monitoring"
+    networks:
+      - monitor-net
+
   pushgateway:
     image: prom/pushgateway:latest
     container_name: pushgateway
@@ -136,74 +413,42 @@ services:
     networks:
       - monitor-net
 
-  minio:
-    image: minio/minio:latest
-    entrypoint: [""]
-    command: ["sh", "-c", "mkdir -p /data/mimir && minio server --quiet /data"]
-    environment:
-      - MINIO_ROOT_USER=mimir
-      - MINIO_ROOT_PASSWORD=supersecret
-    volumes:
-      - minio-data:/data
+########################################################
+# Alerts
+#########################################################
 
-  load-balancer:
-    image: nginx:latest
+  alertmanager:
+    image: prom/alertmanager:latest
+    container_name: alertmanager
     volumes:
-      - ./config/nginx.conf:/etc/nginx/nginx.conf:ro
-    depends_on:
-      - "mimir-1"
-      - "mimir-2"
-      - "mimir-3"
+      - .\alertmanager\config.yml:\etc\alertmanager\config.yml
+      - ./prometheus:/etc/prometheus
+      - ./prometheus/data:/prometheus
+    command:
+      - "--config.file=/etc/alertmanager/config.yml"
+      - "--storage.path=/alertmanager"
+    restart: unless-stopped
     ports:
-      - 9009:9009
+      - 9093:9093
+    labels:
+      org.label-schema.group: "monitoring"
     networks:
       - monitor-net
 
-  mimir-1:
-    image: grafana/mimir:latest
-    command: ["-config.file=/etc/mimir.yaml"]
-    hostname: mimir-1
-    depends_on:
-      - minio
-    volumes:
-      - ./config/mimir.yaml:/etc/mimir.yaml
-      - ./config/alertmanager-fallback-config.yaml:/etc/alertmanager-fallback-config.yaml
-      - mimir-1-data:/data
-    networks:
-      - monitor-net
+########################################################
+# Network
+#########################################################
 
-  mimir-2:
-    image: grafana/mimir:latest
-    command: ["-config.file=/etc/mimir.yaml"]
-    hostname: mimir-2
-    depends_on:
-      - minio
-    volumes:
-      - ./config/mimir.yaml:/etc/mimir.yaml
-      - ./config/alertmanager-fallback-config.yaml:/etc/alertmanager-fallback-config.yaml
-      - mimir-2-data:/data
-    networks:
-    - monitor-net
+networks:
+  monitor-net:
+    driver: bridge
 
-  mimir-3:
-    image: grafana/mimir:latest
-    command: ["-config.file=/etc/mimir.yaml"]
-    hostname: mimir-3
-    depends_on:
-      - minio
-    volumes:
-      - ./config/mimir.yaml:/etc/mimir.yaml
-      - ./config/alertmanager-fallback-config.yaml:/etc/alertmanager-fallback-config.yaml
-      - mimir-3-data:/data
-    networks:
-      - monitor-net
+########################################################
+# Volumes
+#########################################################
 
 volumes:
   mimir-1-data:
   mimir-2-data:
   mimir-3-data:
   minio-data:
-      
-networks:
-  monitor-net:
-    driver: bridge

@@ -9,8 +9,8 @@ common:
     backend: s3
     s3:
       endpoint: minio:9000
-      access_key_id: mimir
-      secret_access_key: {{ GF_SECURITY_ADMIN_PASSWORD }}
+      access_key_id: ${ADMIN_USER}
+      secret_access_key: ${ADMIN_PASSWORD}
       insecure: true
       bucket_name: mimir
 
