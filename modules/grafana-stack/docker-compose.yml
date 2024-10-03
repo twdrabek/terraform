@@ -6,11 +6,12 @@ services:
 # Grafana
 #########################################################
 
-  grafana:
+  grafana: # Running
+  # logger=provisioning t=2024-10-03T11:48:05.043988869Z level=error msg="Failed to provision data sources" error="Datasource provisioning error: attempt to write a readonly database"
+  # Error: ✗ Datasource provisioning error: attempt to write a readonly database
     image: grafana/grafana-enterprise:latest-ubuntu
     container_name: grafana
-    user:
-      "root:root"
+    hostname: grafana
     volumes:
       - ./grafana/data:/var/lib/grafana:rw
       - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards:rw
@@ -33,14 +34,14 @@ services:
 # Prometheus
 #########################################################
 
-  prometheus:
+  prometheus: # Running
+  # ts=2024-10-03T11:51:04.379Z caller=main.go:549 level=error msg="Error loading config (--config.file=/etc/prometheus/prometheus.yml)" file=/etc/prometheus/prometheus.yml err="parsing YAML file /etc/prometheus/prometheus.yml: yaml: unmarshal errors:\n  line 10: field external_labels already set in type config.plain"
     image: prom/prometheus:latest
     container_name: prometheus
+    hostname: prometheus
     volumes:
-      - .\prometheus\prometheus.yml:\etc\prometheus\prometheus.yml:rw
+      - ./prometheus:/etc/prometheus:rw
       - ./prometheus_data:/prometheus:rw
-    user:
-      "root:root"
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
       - "--storage.tsdb.path=/prometheus"
@@ -64,54 +65,60 @@ services:
 # Mimir
 #########################################################
 
-  mimir-1:
+  mimir-1: # Running
     image: grafana/mimir:latest
     container_name: mimir-1
+    hostname: mimir-1
     command: 
       - "-config.file=/etc/mimir.yaml"
       - "-config.expand-env=true"
-    hostname: mimir-1
+    ports:
+      - 8080
     depends_on:
       - minio
     volumes:
-      - .\config\mimir.yaml:\etc\mimir.yaml:ro
-      - .\config\alertmanager-fallback-config.yaml:\etc\alertmanager-fallback-config.yaml:ro
+      - ./mimir/config/alertmanager-fallback-config.yaml:/etc/alertmanager-fallback-config.yaml
+      - ./mimir/mimir.yaml:/etc/mimir.yaml:ro
       - mimir-1-data:/data
     labels:
       org.label-schema.group: "monitoring"
     networks:
       - monitor-net
 
-  mimir-2:
+  mimir-2: # Running
     image: grafana/mimir:latest
     container_name: mimir-2
+    hostname: mimir-2
     command: 
       - "-config.file=/etc/mimir.yaml"
       - "-config.expand-env=true"
-    hostname: mimir-2
+    ports:
+      - 8080
     depends_on:
       - minio
     volumes:
-      - .\config\mimir.yaml:\etc\mimir.yaml:ro
-      - .\config\alertmanager-fallback-config.yaml:\etc\alertmanager-fallback-config.yaml:ro
+      - ./mimir/config/alertmanager-fallback-config.yaml:/etc/alertmanager-fallback-config.yaml
+      - ./mimir/mimir.yaml:/etc/mimir.yaml:ro
       - mimir-2-data:/data
     labels:
       org.label-schema.group: "monitoring"
     networks:
       - monitor-net
 
-  mimir-3:
+  mimir-3: # Running
     image: grafana/mimir:latest
     container_name: mimir-3
+    hostname: mimir-3
     command: 
       - "-config.file=/etc/mimir.yaml"
       - "-config.expand-env=true"
-    hostname: mimir-3
+    ports:
+      - 8080
     depends_on:
       - minio
     volumes:
-      - .\config\mimir.yaml:\etc\mimir.yaml:ro
-      - .\config\alertmanager-fallback-config.yaml:\etc\alertmanager-fallback-config.yaml:ro
+      - ./mimir/config/alertmanager-fallback-config.yaml:/etc/alertmanager-fallback-config.yaml
+      - ./mimir/mimir.yaml:/etc/mimir.yaml:ro
       - mimir-3-data:/data
     labels:
       org.label-schema.group: "monitoring"
@@ -122,10 +129,10 @@ services:
 # Loki
 #########################################################
 
-  read:
-    user: "1000"
+  read: # Healthy
     image: grafana/loki:latest
     container_name: read
+    hostname: read
     ports:
       - 3101:3100
       - 7946
@@ -150,9 +157,9 @@ services:
         aliases:
           - monitor-net
 
-  write:
+  write: # Healthy
     container_name: write
-    user: "1000"
+    hostname: write
     image: grafana/loki:latest
     ports:
       - 3102:3100
@@ -176,10 +183,11 @@ services:
     networks:
       <<: *monitor-net-dns
 
-  backend:
-    user: "1000"
+  backend: # Running
+  # level=error ts=2024-10-03T11:48:46.643652266Z caller=ruler.go:571 msg="unable to list rules" err="NoCredentialProviders: no valid providers in chain. Deprecated.\n\tFor verbose messaging see aws.Config.CredentialsChainVerboseErrors"
     image: grafana/loki:latest
     container_name: backend
+    hostname: backend
     volumes:
       - ./loki/loki-config.yaml:/etc/loki/config.yaml:rw
     ports:
@@ -201,9 +209,10 @@ services:
 # Databases
 #########################################################
 
-  influxdb:
+  influxdb: # Running
     image: influxdb:latest
     container_name: influxdb
+    hostname: influxdb
     restart: always
     environment:
       - INFLUXDB_DB=influx
@@ -223,9 +232,10 @@ services:
 # Collectors
 #########################################################
 
-  nodeexporter:
+  nodeexporter: # Running
     image: prom/node-exporter:latest
     container_name: nodeexporter
+    hostname: nodeexporter
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
@@ -243,9 +253,10 @@ services:
     networks:
       - monitor-net
 
-  cadvisor:
+  cadvisor: # Healthy
     image: gcr.io/cadvisor/cadvisor:latest
     container_name: cadvisor
+    hostname: cadvisor
     privileged: true
     devices:
       - /dev/kmsg:/dev/kmsg
@@ -263,14 +274,16 @@ services:
     networks:
       - monitor-net
 
-  alloy:
+  alloy: # Running
+  # ts=2024-10-03T11:46:04.711649188Z level=warn msg="error sending batch, will retry" component_path=/ component_id=loki.write.default component=client host=gateway:3100 status=-1 tenant=tenant1 error="Post \"http://gateway:3100/loki/api/v1/push\": dial tcp: lookup gateway on 127.0.0.11:53: server misbehaving"
     image: grafana/alloy:latest
     container_name: alloy
+    hostname: alloy
     volumes:
-      - .\alloy\alloy-local-config.yaml:\etc\alloy\config.alloy:ro
+      - ./alloy/alloy-local-config.yaml:/etc/alloy/config.alloy:ro
       - /var/run/docker.sock:/var/run/docker.sock
-    user:
-      "root:root"
+    # user:
+    #   "root:root"
     command:  "run --server.http.listen-addr=0.0.0.0:12345 --storage.path=/var/lib/alloy/data /etc/alloy/config.alloy"
     ports:
       - 12345:12345
@@ -285,16 +298,15 @@ services:
 # Storage
 #########################################################
 
-  minio:
+  minio: # Healthy
     image: minio/minio:latest
     container_name: minio
-    entrypoint:
-      - sh
-      - -euc
-      - |
-        mkdir -p /data/loki-data && \
-        mkdir -p /data/loki-ruler && \
-        minio server /data
+    hostname: minio
+    entrypoint: [""]
+    command:
+      - "sh"
+      - "-euc"
+      - "mkdir -p /data/loki-data && mkdir -p /data/loki-ruler && mkdir -p /data/mimir && minio server --quiet /data"
     environment:
       - MINIO_ROOT_USER=${MINIO_ROOT_USER}
       - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
@@ -320,9 +332,10 @@ services:
 
   load-balancer:
     image: nginx:latest
-    container_name: load-balancer
+    container_name: loadbalancer
+    hostname: loadbalancer
     volumes:
-      - .\loadbalancer\nginx.conf:\etc\nginx\nginx.conf:ro
+      - ./loadbalancer/nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
       - "mimir-1"
       - "mimir-2"
@@ -333,63 +346,16 @@ services:
   gateway:
     image: nginx:latest
     container_name: gateway
+    hostname: gateway
+    volumes:
+      - ./gateway/nginx.conf:/etc/nginx/nginx.conf:rw
     depends_on:
       - read
       - write
     entrypoint:
-      - sh
-      - -euc
-      - |
-        cat <<EOF > /etc/nginx/nginx.conf
-        user  nginx;
-        worker_processes  5;  ## Default: 1
-
-        events {
-          worker_connections   1000;
-        }
-
-        http {
-          resolver 127.0.0.11;
-
-          server {
-            listen             3100;
-
-            location = / {
-              return 200 'OK';
-              auth_basic off;
-            }
-
-            location = /api/prom/push {
-              proxy_pass       http://write:3100\$$request_uri;
-            }
-
-            location = /api/prom/tail {
-              proxy_pass       http://read:3100\$$request_uri;
-              proxy_set_header Upgrade \$$http_upgrade;
-              proxy_set_header Connection "upgrade";
-            }
-
-            location ~ /api/prom/.* {
-              proxy_pass       http://read:3100\$$request_uri;
-            }
-
-            location = /loki/api/v1/push {
-              proxy_pass       http://write:3100\$$request_uri;
-            }
-
-            location = /loki/api/v1/tail {
-              proxy_pass       http://read:3100\$$request_uri;
-              proxy_set_header Upgrade \$$http_upgrade;
-              proxy_set_header Connection "upgrade";
-            }
-
-            location ~ /loki/api/.* {
-              proxy_pass       http://read:3100\$$request_uri;
-            }
-          }
-        }
-        EOF
-        /docker-entrypoint.sh nginx -g "daemon off;"
+      - 'sh'
+      - '-eu'
+      - '-c /docker-entrypoint.sh nginx -g \"daemon off\";'
     ports:
       - 3100:3100
     healthcheck:
@@ -402,9 +368,10 @@ services:
     networks:
       - monitor-net
 
-  pushgateway:
+  pushgateway: # Running
     image: prom/pushgateway:latest
     container_name: pushgateway
+    hostname: pushgateway
     restart: unless-stopped
     ports:
       - 9091:9091
@@ -417,12 +384,12 @@ services:
 # Alerts
 #########################################################
 
-  alertmanager:
+  alertmanager: # Running
     image: prom/alertmanager:latest
     container_name: alertmanager
     volumes:
-      - .\alertmanager\config.yml:\etc\alertmanager\config.yml
-      - ./prometheus:/etc/prometheus
+      - ./alertmanager/config.yml:/etc/alertmanager/config.yml
+      - ./prometheus/config:/etc/prometheus
       - ./prometheus/data:/prometheus
     command:
       - "--config.file=/etc/alertmanager/config.yml"
